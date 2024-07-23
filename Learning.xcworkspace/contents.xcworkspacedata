@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:MetalLearning/MetalLearning.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:UIKitDynamics/UIKitDynamics.xcodeproj">
    </FileRef>
 </Workspace>
