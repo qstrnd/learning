@@ -11,7 +11,6 @@
 		A1AFE6E52C502998005BFE6A /* MetalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFE6E42C502998005BFE6A /* MetalView.swift */; };
 		A1AFE6E72C502999005BFE6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1AFE6E62C502999005BFE6A /* Assets.xcassets */; };
 		A1AFE6EA2C502999005BFE6A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1AFE6E92C502999005BFE6A /* Preview Assets.xcassets */; };
-		A1AFE6F12C502A44005BFE6A /* MetalViewImplCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFE6F02C502A44005BFE6A /* MetalViewImplCoordinator.swift */; };
 		A1AFE6F42C5039A7005BFE6A /* MetalRenderer.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFE6F32C5039A7005BFE6A /* MetalRenderer.swift */; };
 		A1AFE6F62C5039C7005BFE6A /* MetalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFE6F52C5039C7005BFE6A /* MetalViewModel.swift */; };
 		A1AFE6F82C5039EA005BFE6A /* MetalViewImpl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFE6F72C5039EA005BFE6A /* MetalViewImpl.swift */; };
@@ -23,7 +22,6 @@
 		A1AFE6E42C502998005BFE6A /* MetalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalView.swift; sourceTree = "<group>"; };
 		A1AFE6E62C502999005BFE6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1AFE6E92C502999005BFE6A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		A1AFE6F02C502A44005BFE6A /* MetalViewImplCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalViewImplCoordinator.swift; sourceTree = "<group>"; };
 		A1AFE6F32C5039A7005BFE6A /* MetalRenderer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalRenderer.swift; sourceTree = "<group>"; };
 		A1AFE6F52C5039C7005BFE6A /* MetalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalViewModel.swift; sourceTree = "<group>"; };
 		A1AFE6F72C5039EA005BFE6A /* MetalViewImpl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetalViewImpl.swift; sourceTree = "<group>"; };
@@ -78,7 +76,6 @@
 		A1AFE6F22C503971005BFE6A /* MetalView */ = {
 			isa = PBXGroup;
 			children = (
-				A1AFE6F02C502A44005BFE6A /* MetalViewImplCoordinator.swift */,
 				A1AFE6F52C5039C7005BFE6A /* MetalViewModel.swift */,
 				A1AFE6E42C502998005BFE6A /* MetalView.swift */,
 				A1AFE6F32C5039A7005BFE6A /* MetalRenderer.swift */,
@@ -161,7 +158,6 @@
 				A1AFE6F42C5039A7005BFE6A /* MetalRenderer.swift in Sources */,
 				A1AFE6F62C5039C7005BFE6A /* MetalViewModel.swift in Sources */,
 				A1AFE6E52C502998005BFE6A /* MetalView.swift in Sources */,
-				A1AFE6F12C502A44005BFE6A /* MetalViewImplCoordinator.swift in Sources */,
 				A1AFE6E32C502998005BFE6A /* MetalLearningApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

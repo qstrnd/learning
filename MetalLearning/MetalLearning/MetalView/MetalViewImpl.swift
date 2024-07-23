@@ -15,14 +15,10 @@ struct MetalViewImpl: UIViewRepresentable {
         self.renderer = renderer
     }
 
-    func makeCoordinator() -> MetalViewImplCoordinator {
-        MetalViewImplCoordinator(self, renderer: renderer)
-    }
-
     func makeUIView(context: UIViewRepresentableContext<MetalViewImpl>) -> MTKView {
         let metalView = MTKView()
-        metalView.device = renderer.device
-        metalView.delegate = context.coordinator
+        metalView.device = renderer.dependencies.device
+        metalView.delegate = renderer
         metalView.preferredFramesPerSecond = 60
         metalView.enableSetNeedsDisplay = true
         metalView

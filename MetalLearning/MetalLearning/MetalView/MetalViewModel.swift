@@ -22,12 +22,12 @@ final class MetalViewModel: ObservableObject {
     @Published var state: State = .unspecified
 
     func onAppear() {
-        guard let device = MTLCreateSystemDefaultDevice() else {
+        guard let metalRendererDependencies = MetalRendererDependencies() else {
             state = .error(.cannotCreateDevice)
             return
         }
         
-        let renderer = MetalRenderer(device: device)
+        let renderer = MetalRenderer(dependencies: metalRendererDependencies)
         state = .canDraw(renderer)
     }
 
