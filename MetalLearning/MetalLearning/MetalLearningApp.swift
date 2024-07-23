@@ -11,7 +11,7 @@ import SwiftUI
 struct MetalLearningApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            MetalView()
         }
     }
 }
