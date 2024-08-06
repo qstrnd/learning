@@ -9,7 +9,11 @@ import UIKit
 
 final class MainViewController: UIViewController {
 
-    private lazy var layoutManager = PortraitLayoutManager(parentView: view, playgroundView: playgroundView, playgroundConfigurationView: playgroundConfigurationView)
+    private lazy var layoutManager = LayoutManager(
+        parentView: view,
+        playgroundView: playgroundView,
+        playgroundConfigurationView: playgroundConfigurationView
+    )
 
     private let playgroundView = PlaygroundView()
 
@@ -22,18 +26,32 @@ final class MainViewController: UIViewController {
 
     private let playgroundConfigurationView = PlaygroundConfigurationView(viewModel: .init(contentFactory:  DefaultPlaygroundConfigurationItemFactory()))
     
+    deinit {
+        UIDevice.current.endGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        setupLayout()
+        setupView()
         setupPlaygroundConfigurationView()
         setupPlaygroundView()
+        setupObservers()
     }
 
-    private func setupLayout() {
-        view.addSubview(playgroundConfigurationView)
-        view.addSubview(playgroundView)
+    private func setupView() {
+        view.backgroundColor = .secondarySystemBackground
+    }
 
+    private func setupObservers() {
+        UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleOrientationChange), name: UIDevice.orientationDidChangeNotification, object: nil)
+    }
+
+    @objc
+    private func handleOrientationChange() {
+        layoutManager.prepare(for: UIDevice.current.orientation)
         layoutManager.setupInitialConstraints(isExpanded: isPlaygroundViewExpanded)
     }
 
@@ -84,7 +102,6 @@ extension MainViewController: PlaygroundViewDelegate {
 
 extension MainViewController: PlaygroundConfigurationViewDelegate {
     func playgroundConfigurationViewWillApplyTopInset(_ playgroundConfigurationView: PlaygroundConfigurationView) -> CGFloat {
-        let frame = playgroundConfigurationView.convert(playgroundView.frame, from: view)
-        return frame.maxY + .doublePadding - playgroundConfigurationView.safeAreaInsets.top
+        layoutManager.calculateTopInsetForPlaygroundConfigurationViewContent()
     }
 }
