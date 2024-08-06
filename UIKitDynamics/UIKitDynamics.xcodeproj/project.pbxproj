@@ -10,11 +10,12 @@
 		A14B8A832C6290020069D760 /* PlaygroundConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B8A822C6290020069D760 /* PlaygroundConfigurationView.swift */; };
 		A14B8A862C6292550069D760 /* PlaygroundConfigurationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B8A852C6292550069D760 /* PlaygroundConfigurationViewModel.swift */; };
 		A14B8A882C629F290069D760 /* DefaultPlaygroundConfigurationItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B8A872C629F290069D760 /* DefaultPlaygroundConfigurationItemFactory.swift */; };
+		A14B8A8B2C62ADE80069D760 /* MainViewController+LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B8A8A2C62ADE80069D760 /* MainViewController+LayoutManager.swift */; };
 		A19521A02C51763E00113137 /* PlaygroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A195219F2C51763E00113137 /* PlaygroundView.swift */; };
 		A19521A22C51799500113137 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19521A12C51799500113137 /* Constants.swift */; };
 		A1AFE6C32C502313005BFE6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFE6C22C502313005BFE6A /* AppDelegate.swift */; };
 		A1AFE6C52C502313005BFE6A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFE6C42C502313005BFE6A /* SceneDelegate.swift */; };
-		A1AFE6C72C502313005BFE6A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFE6C62C502313005BFE6A /* ViewController.swift */; };
+		A1AFE6C72C502313005BFE6A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFE6C62C502313005BFE6A /* MainViewController.swift */; };
 		A1AFE6CA2C502313005BFE6A /* Base in Resources */ = {isa = PBXBuildFile; fileRef = A1AFE6C92C502313005BFE6A /* Base */; };
 		A1AFE6CC2C502313005BFE6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A1AFE6CB2C502313005BFE6A /* Assets.xcassets */; };
 		A1AFE6CF2C502313005BFE6A /* Base in Resources */ = {isa = PBXBuildFile; fileRef = A1AFE6CE2C502313005BFE6A /* Base */; };
@@ -24,12 +25,13 @@
 		A14B8A822C6290020069D760 /* PlaygroundConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundConfigurationView.swift; sourceTree = "<group>"; };
 		A14B8A852C6292550069D760 /* PlaygroundConfigurationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundConfigurationViewModel.swift; sourceTree = "<group>"; };
 		A14B8A872C629F290069D760 /* DefaultPlaygroundConfigurationItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPlaygroundConfigurationItemFactory.swift; sourceTree = "<group>"; };
+		A14B8A8A2C62ADE80069D760 /* MainViewController+LayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+LayoutManager.swift"; sourceTree = "<group>"; };
 		A195219F2C51763E00113137 /* PlaygroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundView.swift; sourceTree = "<group>"; };
 		A19521A12C51799500113137 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		A1AFE6BF2C502313005BFE6A /* UIKitDynamics.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UIKitDynamics.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A1AFE6C22C502313005BFE6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A1AFE6C42C502313005BFE6A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		A1AFE6C62C502313005BFE6A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		A1AFE6C62C502313005BFE6A /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		A1AFE6C92C502313005BFE6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A1AFE6CB2C502313005BFE6A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A1AFE6CE2C502313005BFE6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -56,6 +58,15 @@
 			path = PlaygroundConfigurationView;
 			sourceTree = "<group>";
 		};
+		A14B8A892C62ADAF0069D760 /* MainViewController */ = {
+			isa = PBXGroup;
+			children = (
+				A1AFE6C62C502313005BFE6A /* MainViewController.swift */,
+				A14B8A8A2C62ADE80069D760 /* MainViewController+LayoutManager.swift */,
+			);
+			path = MainViewController;
+			sourceTree = "<group>";
+		};
 		A1AFE6B62C502313005BFE6A = {
 			isa = PBXGroup;
 			children = (
@@ -77,7 +88,7 @@
 			children = (
 				A1AFE6C22C502313005BFE6A /* AppDelegate.swift */,
 				A1AFE6C42C502313005BFE6A /* SceneDelegate.swift */,
-				A1AFE6C62C502313005BFE6A /* ViewController.swift */,
+				A14B8A892C62ADAF0069D760 /* MainViewController */,
 				A14B8A872C629F290069D760 /* DefaultPlaygroundConfigurationItemFactory.swift */,
 				A14B8A842C6292410069D760 /* PlaygroundConfigurationView */,
 				A19521A12C51799500113137 /* Constants.swift */,
@@ -163,7 +174,8 @@
 			files = (
 				A14B8A832C6290020069D760 /* PlaygroundConfigurationView.swift in Sources */,
 				A19521A22C51799500113137 /* Constants.swift in Sources */,
-				A1AFE6C72C502313005BFE6A /* ViewController.swift in Sources */,
+				A14B8A8B2C62ADE80069D760 /* MainViewController+LayoutManager.swift in Sources */,
+				A1AFE6C72C502313005BFE6A /* MainViewController.swift in Sources */,
 				A14B8A862C6292550069D760 /* PlaygroundConfigurationViewModel.swift in Sources */,
 				A1AFE6C32C502313005BFE6A /* AppDelegate.swift in Sources */,
 				A1AFE6C52C502313005BFE6A /* SceneDelegate.swift in Sources */,
