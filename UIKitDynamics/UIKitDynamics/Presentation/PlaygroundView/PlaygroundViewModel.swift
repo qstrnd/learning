@@ -12,6 +12,7 @@ extension PlaygroundView {
         unowned var view: PlaygroundView!
 
         lazy var removeAllItemsPublisher = interactiveObjectsManager.removeAllItemsPublisher
+        let preferencesProvider: InteractiveObjectsPreferencesProvider
 
         private let interactiveObjectsManager: InteractiveObjectsManaging
 
@@ -34,8 +35,12 @@ extension PlaygroundView {
 
         private(set) var interactiveSubviews: Set<UIView> = []
 
-        init(interactiveObjectsManager: InteractiveObjectsManaging) {
+        init(
+            interactiveObjectsManager: InteractiveObjectsManaging,
+            preferencesProvider: InteractiveObjectsPreferencesProvider
+        ) {
             self.interactiveObjectsManager = interactiveObjectsManager
+            self.preferencesProvider = preferencesProvider
         }
 
         func removeAllInteractiveSubviews() -> [UIView] {

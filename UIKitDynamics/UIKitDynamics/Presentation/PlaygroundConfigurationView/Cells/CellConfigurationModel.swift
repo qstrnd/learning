@@ -12,6 +12,7 @@ enum CellConfigurationModel {
     case button(Button)
     case `switch`(Switch)
     case text(Text)
+    case slider(Slider)
 
     struct Switch {
         let title: String
@@ -29,5 +30,14 @@ enum CellConfigurationModel {
     struct Text {
         let title: String
         let subtitle: String?
+    }
+
+    struct Slider {
+        let title: String
+        let minValue: Float
+        let maxValue: Float
+        let selectedMinValue: Float
+        let selectedMaxValue: Float
+        var onUpdate: (_ min: Float, _ max: Float) -> Void
     }
 }

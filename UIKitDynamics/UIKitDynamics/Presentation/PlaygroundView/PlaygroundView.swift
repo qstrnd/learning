@@ -138,13 +138,13 @@ final class PlaygroundView: UIView {
     // MARK: Dynamics
 
     private func createInteractiveSubview(at viewCenterPoint: CGPoint) {
-        let viewDimension = CGFloat.random(in: 20 ..< 100) // TODO: change with slider
+        let viewDimension = viewModel.preferencesProvider.getRandomDimension()
         let viewOrigin = CGPoint(x: viewCenterPoint.x - viewDimension / 2, y: viewCenterPoint.y - viewDimension / 2)
         let viewFrame = CGRect(origin: viewOrigin, size: CGSize(width: viewDimension, height: viewDimension))
 
         let interactiveSubview = UIView()
         interactiveSubview.frame = viewFrame
-        interactiveSubview.backgroundColor = [UIColor.systemRed, UIColor.systemBlue, UIColor.systemGreen, UIColor.systemMint].randomElement()
+        interactiveSubview.backgroundColor = viewModel.preferencesProvider.getRandomColor()
 
         addSubview(interactiveSubview)
         viewModel.registerInteractiveSubview(interactiveSubview)

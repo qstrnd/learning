@@ -10,6 +10,7 @@ import UIKit
 final class MainViewController: UIViewController {
 
     private let interactiveObjectsManager = InteractiveObjectsManager()
+    private let preferencesManager = InteractiveObjectsPreferencesManager()
 
     private lazy var layoutManager = LayoutManager(
         isPlaygroundViewExpanded: false,
@@ -18,7 +19,12 @@ final class MainViewController: UIViewController {
         playgroundConfigurationView: playgroundConfigurationView
     )
 
-    private lazy var playgroundView = PlaygroundView(viewModel: .init(interactiveObjectsManager: interactiveObjectsManager))
+    private lazy var playgroundView = PlaygroundView(
+        viewModel: .init(
+            interactiveObjectsManager: interactiveObjectsManager,
+            preferencesProvider: preferencesManager
+        )
+    )
 
     private var isPlaygroundViewExpanded: Bool {
         get {
@@ -34,7 +40,8 @@ final class MainViewController: UIViewController {
 
     private lazy var playgroundConfigurationView = PlaygroundConfigurationView(
         viewModel: .init(
-            interactiveObjectsService: interactiveObjectsManager
+            interactiveObjectsService: interactiveObjectsManager,
+            interactivePreferencesService: preferencesManager
         )
     )
 

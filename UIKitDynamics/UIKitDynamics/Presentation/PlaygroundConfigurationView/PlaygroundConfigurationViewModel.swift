@@ -16,6 +16,7 @@ extension PlaygroundConfigurationView {
     enum ContentItem: String, Identifiable {
         case clearInteractiveViewsButton
         case useMotionForGravitySwitch
+        case minMaxInteractiveObjectDimensionSlider
 
         var id: String {
             rawValue
@@ -26,21 +27,26 @@ extension PlaygroundConfigurationView {
         lazy var content = _content.eraseToAnyPublisher()
         private let _content = CurrentValueSubject<[ContentItem], Never>([])
         private let interactiveObjectsService: InteractiveObjectsObserving
+        private let interactivePreferencesService: InteractiveObjectsPreferencesKeeping
 
-        static var initialContentItems: [ContentItem] = [.useMotionForGravitySwitch]
+        static var initialContentItems: [ContentItem] = [.useMotionForGravitySwitch, .minMaxInteractiveObjectDimensionSlider]
 
         private var cancellables: Set<AnyCancellable> = []
 
-        init(interactiveObjectsService: InteractiveObjectsObserving) {
+        init(
+            interactiveObjectsService: InteractiveObjectsObserving,
+            interactivePreferencesService: InteractiveObjectsPreferencesKeeping
+        ) {
             self._content.value = Self.initialContentItems
             self.interactiveObjectsService = interactiveObjectsService
+            self.interactivePreferencesService = interactivePreferencesService
 
             interactiveObjectsService.count
                 .map { $0 > 0 }
                 .removeDuplicates()
                 .sink { [unowned self] countIsNotEmpty  in
                     if countIsNotEmpty {
-                        self._content.value = [.clearInteractiveViewsButton] + Self.initialContentItems
+                        self._content.value = Self.initialContentItems + [.clearInteractiveViewsButton]
                     } else {
                         self._content.value = Self.initialContentItems
                     }
@@ -55,13 +61,34 @@ extension PlaygroundConfigurationView {
                     self?.clearAllInteractiveViews()
                 }))
             case .useMotionForGravitySwitch:
-                return .switch(.init(
-                    title: "Use Accelerometer For Gravity",
-                    isOn: false,
-                    onUpdate: { [weak self] newValue in
-                    self?.updateMotionEnabled(to: newValue)
-                }))
+                return .switch(
+                    .init(
+                        title: "Use Accelerometer For Gravity",
+                        isOn: false,
+                        onUpdate: { [weak self] newValue in
+                            self?.updateMotionEnabled(to: newValue)
+                        }
+                    )
+                )
+            case .minMaxInteractiveObjectDimensionSlider:
+                return .slider(
+                    .init(
+                        title: "Dimensions",
+                        minValue: Float(interactivePreferencesService.minPossibleDimension),
+                        maxValue: Float(interactivePreferencesService.maxPossibleDimension),
+                        selectedMinValue: Float(interactivePreferencesService.minDimension),
+                        selectedMaxValue: Float(interactivePreferencesService.maxDimension),
+                        onUpdate: { [weak self] min, max in
+                            self?.updateMinMaxDimensions(min: min, max: max)
+                        }
+                    )
+                )
             }
+        }
+
+        private func updateMinMaxDimensions(min: Float, max: Float) {
+            interactivePreferencesService.minDimension = CGFloat(min)
+            interactivePreferencesService.maxDimension = CGFloat(max)
         }
 
         private func updateMotionEnabled(to newValue: Bool) {
@@ -100,6 +127,8 @@ extension PlaygroundConfigurationView {
                     contentConfiguration = self.getTextConfiguration(for: cell, model: model)
                 case let .switch(model):
                     contentConfiguration = self.getSwitchConfiguration(for: cell, model: model)
+                case let .slider(model):
+                    contentConfiguration = self.getSliderConfiguration(for: cell, model: model)
                 }
 
                 cell.contentConfiguration = contentConfiguration
@@ -138,9 +167,7 @@ extension PlaygroundConfigurationView {
                 buttonConfiguration.imagePlacement = .leading
             }
 
-            let content = ButtonCellConfiguration(buttonConfiguration: buttonConfiguration, onButtonTap: model.onTap)
-
-            return content
+            return ButtonCellConfiguration(buttonConfiguration: buttonConfiguration, onButtonTap: model.onTap)
         }
 
         private func getSwitchConfiguration(for cell: UICollectionViewListCell, model: CellConfigurationModel.Switch) -> UIContentConfiguration {
@@ -162,6 +189,17 @@ extension PlaygroundConfigurationView {
             ]
 
             return content
+        }
+
+        private func getSliderConfiguration(for cell: UICollectionViewListCell, model: CellConfigurationModel.Slider) -> UIContentConfiguration {
+            RangeSliderCellConfiguration(
+                title: model.title,
+                minValue: model.minValue,
+                maxValue: model.maxValue,
+                selectedMinValue: model.selectedMinValue,
+                selectedMaxValue: model.selectedMaxValue,
+                onValueChanged: model.onUpdate
+            )
         }
 
         private func getTextConfiguration(for cell: UICollectionViewListCell, model: CellConfigurationModel.Text) -> UIContentConfiguration {
