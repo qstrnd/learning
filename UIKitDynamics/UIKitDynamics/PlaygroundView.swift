@@ -15,6 +15,7 @@ protocol PlaygroundViewDelegate: AnyObject {
 final class PlaygroundView: UIView {
 
     weak var delegate: PlaygroundViewDelegate?
+    private lazy var feedbackGenerator = HapticFeedbackGenerator(style: .light, view: self)
 
     private let expandButton = UIButton(type: .system)
     private lazy var expandButtonTrailingConstraint = expandButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
@@ -70,7 +71,7 @@ final class PlaygroundView: UIView {
     @objc
     private func handleTapAction(tap: UITapGestureRecognizer) {
         let tapLocation = tap.location(in: self)
-        let effect = RippleEffect(startingPoint: tapLocation)
+        let effect = RippleEffect(startingPoint: tapLocation, feedbackGenerator: feedbackGenerator)
         apply(effect: effect)
     }
 

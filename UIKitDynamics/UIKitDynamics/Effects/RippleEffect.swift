@@ -12,20 +12,32 @@ struct RippleEffect: ViewEffect {
     let color: UIColor
     let growthDuration: TimeInterval
     let fadeOutDuration: TimeInterval
+    let feedbackGenerator: HapticFeedbackGenerator?
 
     init(
         startingPoint: CGPoint,
         color: UIColor = .placeholderText,
         growthDuration: TimeInterval = 0.5,
-        fadeOutDuration: TimeInterval = 0.4
+        fadeOutDuration: TimeInterval = 0.4,
+        feedbackGenerator: HapticFeedbackGenerator? = nil
     ) {
         self.startingPoint = startingPoint
         self.color = color
         self.growthDuration = growthDuration
         self.fadeOutDuration = fadeOutDuration
+        self.feedbackGenerator = feedbackGenerator
     }
 
     func apply(to view: UIView) {
+        performFeedback()
+        performAnimation(in: view)
+    }
+
+    private func performFeedback() {
+        feedbackGenerator?.triggerFeedback(at: startingPoint)
+    }
+
+    private func performAnimation(in view: UIView) {
         let rippleLayer = CAShapeLayer()
         let maxDimension = max(view.frame.width, view.frame.height)
         rippleLayer.opacity = 0 // final state
@@ -50,7 +62,7 @@ struct RippleEffect: ViewEffect {
         animationGroup.duration = totalDuration
         animationGroup.animations = [growthAnimation, fadeOutAnimation]
 
-        let contentLayer = getConfiguredContentLayer(view: view)
+        let contentLayer = getConfiguredContentLayer(for: view)
         contentLayer.addSublayer(rippleLayer)
         rippleLayer.add(animationGroup, forKey: "rippleEffect")
 
@@ -59,7 +71,7 @@ struct RippleEffect: ViewEffect {
         }
     }
 
-    private func getConfiguredContentLayer(view: UIView) -> CALayer {
+    private func getConfiguredContentLayer(for view: UIView) -> CALayer {
         let contentLayer: CALayer
         if let existingContentLayer = view.existingContentLayer {
             contentLayer = existingContentLayer
