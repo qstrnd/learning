@@ -8,10 +8,6 @@
 import Combine
 import UIKit
 
-protocol PlaygroundConfigurationViewModelDelegate: AnyObject {
-    func playgroundConfigurationViewModelDidRequestDelectionForInteractiveViews(_ viewModel: PlaygroundConfigurationView.ViewModel)
-}
-
 protocol PlaygroundConfigurationItemFactory {
     func createContentItems() -> [PlaygroundConfigurationView.ContentItem]
 }
@@ -33,12 +29,11 @@ extension PlaygroundConfigurationView {
     final class ViewModel {
         lazy var content = _content.eraseToAnyPublisher()
         private let _content = CurrentValueSubject<[ContentItem], Never>([])
+        private let interactiveObjectsService: InteractiveObjectsObserving
 
-        weak var delegate: PlaygroundConfigurationViewModelDelegate?
-
-        init(contentFactory: PlaygroundConfigurationItemFactory, delegate: PlaygroundConfigurationViewModelDelegate) {
+        init(contentFactory: PlaygroundConfigurationItemFactory, interactiveObjectsService: InteractiveObjectsObserving) {
             self._content.value = contentFactory.createContentItems()
-            self.delegate = delegate
+            self.interactiveObjectsService = interactiveObjectsService
         }
 
         func getConfigurationModel(for item: ContentItem) -> CellConfigurationModel {
@@ -59,7 +54,7 @@ extension PlaygroundConfigurationView {
         }
 
         private func clearAllInteractiveViews() {
-            delegate?.playgroundConfigurationViewModelDidRequestDelectionForInteractiveViews(self)
+            interactiveObjectsService.requestAllItemsRemoval()
         }
 
     }

@@ -9,6 +9,8 @@ import UIKit
 
 final class MainViewController: UIViewController {
 
+    private let interactiveObjectsManager = InteractiveObjectsManager()
+
     private lazy var layoutManager = LayoutManager(
         isPlaygroundViewExpanded: false,
         parentView: view,
@@ -16,7 +18,7 @@ final class MainViewController: UIViewController {
         playgroundConfigurationView: playgroundConfigurationView
     )
 
-    private let playgroundView = PlaygroundView()
+    private lazy var playgroundView = PlaygroundView(viewModel: .init(interactiveObjectsManager: interactiveObjectsManager))
 
     private var isPlaygroundViewExpanded: Bool {
         get {
@@ -33,7 +35,7 @@ final class MainViewController: UIViewController {
     private lazy var playgroundConfigurationView = PlaygroundConfigurationView(
         viewModel: .init(
             contentFactory:  DefaultPlaygroundConfigurationItemFactory(),
-            delegate: self
+            interactiveObjectsService: interactiveObjectsManager
         )
     )
 
@@ -86,11 +88,5 @@ extension MainViewController: PlaygroundViewDelegate {
 extension MainViewController: PlaygroundConfigurationViewDelegate {
     func playgroundConfigurationViewWillApplyTopInset(_ playgroundConfigurationView: PlaygroundConfigurationView) -> CGFloat {
         layoutManager.calculateTopInsetForPlaygroundConfigurationViewContent()
-    }
-}
-
-extension MainViewController: PlaygroundConfigurationViewModelDelegate {
-    func playgroundConfigurationViewModelDidRequestDelectionForInteractiveViews(_ viewModel: PlaygroundConfigurationView.ViewModel) {
-        playgroundView.removeAllInteractiveSubviews()
     }
 }

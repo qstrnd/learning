@@ -5,6 +5,7 @@
 //  Created by Andy on 2024-07-24.
 //
 
+import Combine
 import UIKit
 
 protocol PlaygroundViewDelegate: AnyObject {
@@ -20,34 +21,15 @@ final class PlaygroundView: UIView {
     private let expandButton = UIButton(type: .system)
     private lazy var expandButtonTrailingConstraint = expandButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
 
-
-    private lazy var animator = UIDynamicAnimator(referenceView: self)
-
-    private lazy var gravityBehavor: UIGravityBehavior = {
-        let behavior = UIGravityBehavior()
-        animator.addBehavior(behavior)
-
-        return behavior
-    }()
-
-    private lazy var collisionBehavior: UICollisionBehavior = {
-        let behavior = UICollisionBehavior()
-        behavior.translatesReferenceBoundsIntoBoundary = true
-        animator.addBehavior(behavior)
-
-        return behavior
-    }()
-
-    private var interactiveSubviews: Set<UIView> = []
+    private let viewModel: ViewModel
+    private var cancellables: Set<AnyCancellable> = []
 
     // MARK: - Methods
 
-    convenience init() {
-        self.init(frame: .zero)
-    }
-
-    override init(frame: CGRect) {
+    init(viewModel: ViewModel, frame: CGRect = .zero) {
+        self.viewModel = viewModel
         super.init(frame: frame)
+        viewModel.view = self
 
         setupView()
     }
@@ -58,12 +40,9 @@ final class PlaygroundView: UIView {
 
     func removeAllInteractiveSubviews() {
         fadeOutAllInteractiveSubviews { _ in
-            self.interactiveSubviews.forEach {
-                $0.removeFromSuperview()
-                self.removeDynamics(from: $0)
-            }
-
-            self.interactiveSubviews = []
+            self.viewModel
+                .removeAllInteractiveSubviews()
+                .forEach { $0.removeFromSuperview() }
         }
     }
 
@@ -85,6 +64,7 @@ final class PlaygroundView: UIView {
         setupShadow()
         setupExpandButton()
         setupGestures()
+        setupObservers()
 
         // TODO: Register for orientation change and remove the views outside bounds
     }
@@ -99,6 +79,14 @@ final class PlaygroundView: UIView {
     private func setupGestures() {
         let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapAction(tap:)))
         addGestureRecognizer(tap)
+    }
+
+    private func setupObservers() {
+        viewModel.removeAllItemsPublisher
+            .sink { [weak self] _ in
+                self?.removeAllInteractiveSubviews()
+            }
+            .store(in: &cancellables)
     }
 
     @objc
@@ -159,23 +147,12 @@ final class PlaygroundView: UIView {
         interactiveSubview.backgroundColor = [UIColor.systemRed, UIColor.systemBlue, UIColor.systemGreen, UIColor.systemMint].randomElement()
 
         addSubview(interactiveSubview)
-        interactiveSubviews.insert(interactiveSubview)
-        addDynamics(to: interactiveSubview)
-    }
-
-    private func addDynamics(to subview: UIView) {
-        collisionBehavior.addItem(subview)
-        gravityBehavor.addItem(subview)
-    }
-
-    private func removeDynamics(from subview: UIView) {
-        collisionBehavior.removeItem(subview)
-        gravityBehavor.removeItem(subview)
+        viewModel.registerInteractiveSubview(interactiveSubview)
     }
 
     private func fadeOutAllInteractiveSubviews(completion: ((Bool) -> Void)? = nil) {
         UIView.animate(withDuration: 0.2, animations: {
-            self.interactiveSubviews.forEach { $0.alpha = 0 }
+            self.viewModel.interactiveSubviews.forEach { $0.alpha = 0 }
         }, completion: completion)
     }
 
