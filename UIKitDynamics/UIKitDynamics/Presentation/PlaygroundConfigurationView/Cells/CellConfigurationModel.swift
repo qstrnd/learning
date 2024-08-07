@@ -14,6 +14,7 @@ enum CellConfigurationModel {
     case text(Text)
 
     struct Switch {
+        let title: String
         var isOn: Bool
         var onUpdate: (Bool) -> Void
     }

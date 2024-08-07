@@ -55,14 +55,17 @@ extension PlaygroundConfigurationView {
                     self?.clearAllInteractiveViews()
                 }))
             case .useMotionForGravitySwitch:
-                return .switch(.init(isOn: false, onUpdate: { [weak self] newValue in
+                return .switch(.init(
+                    title: "Use Accelerometer For Gravity",
+                    isOn: false,
+                    onUpdate: { [weak self] newValue in
                     self?.updateMotionEnabled(to: newValue)
                 }))
             }
         }
 
         private func updateMotionEnabled(to newValue: Bool) {
-
+            print("Enable motion \(newValue)")
         }
 
         private func clearAllInteractiveViews() {
@@ -142,8 +145,21 @@ extension PlaygroundConfigurationView {
 
         private func getSwitchConfiguration(for cell: UICollectionViewListCell, model: CellConfigurationModel.Switch) -> UIContentConfiguration {
             var content = cell.defaultContentConfiguration()
+            content.text = model.title
 
-            // TODO: Configure
+            let switchView = UISwitch(frame: .zero, primaryAction: .init(handler: { action in
+                guard let senderSwitch = action.sender as? UISwitch else { return }
+                model.onUpdate(senderSwitch.isOn)
+            }))
+
+            cell.accessories = [
+                .customView(
+                    configuration: .init(
+                        customView: switchView,
+                        placement: .trailing(displayed: .always)
+                    )
+                )
+            ]
 
             return content
         }
