@@ -20,6 +20,25 @@ final class PlaygroundView: UIView {
     private let expandButton = UIButton(type: .system)
     private lazy var expandButtonTrailingConstraint = expandButton.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor)
 
+
+    private lazy var animator = UIDynamicAnimator(referenceView: self)
+
+    private lazy var gravityBehavor: UIGravityBehavior = {
+        let behavior = UIGravityBehavior()
+        animator.addBehavior(behavior)
+
+        return behavior
+    }()
+
+    private lazy var collisionBehavior: UICollisionBehavior = {
+        let behavior = UICollisionBehavior()
+        behavior.translatesReferenceBoundsIntoBoundary = true
+        animator.addBehavior(behavior)
+
+        return behavior
+    }()
+
+
     // MARK: - Methods
 
     convenience init() {
@@ -71,8 +90,11 @@ final class PlaygroundView: UIView {
     @objc
     private func handleTapAction(tap: UITapGestureRecognizer) {
         let tapLocation = tap.location(in: self)
+
         let effect = RippleEffect(startingPoint: tapLocation, feedbackGenerator: feedbackGenerator)
         apply(effect: effect)
+
+        createInteractiveSubview(at: tapLocation)
     }
 
     // MARK: Expand Button
@@ -109,6 +131,26 @@ final class PlaygroundView: UIView {
             expandButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: .standardPadding),
             expandButtonTrailingConstraint
         ])
+    }
+
+    // MARK: Dynamics
+
+    private func createInteractiveSubview(at viewCenterPoint: CGPoint) {
+        let viewDimension = CGFloat.random(in: 20 ..< 100) // TODO: change with slider
+        let viewOrigin = CGPoint(x: viewCenterPoint.x - viewDimension / 2, y: viewCenterPoint.y - viewDimension / 2)
+        let viewFrame = CGRect(origin: viewOrigin, size: CGSize(width: viewDimension, height: viewDimension))
+
+        let interactiveSubview = UIView()
+        interactiveSubview.frame = viewFrame
+        interactiveSubview.backgroundColor = [UIColor.systemRed, UIColor.systemBlue, UIColor.systemGreen, UIColor.systemMint].randomElement()
+
+        addSubview(interactiveSubview)
+        addDynamics(to: interactiveSubview)
+    }
+
+    private func addDynamics(to subview: UIView) {
+        collisionBehavior.addItem(subview)
+        gravityBehavor.addItem(subview)
     }
 
     // MARK: Actions
