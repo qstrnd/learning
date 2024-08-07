@@ -56,7 +56,13 @@ extension MainViewController {
         private func updateConstraints(isExpanded: Bool, animated: Bool = false) {
             innerLayoutManager?.updateConstraints(isExpanded: isExpanded)
 
-            self.parentView.setNeedsLayout()
+            if animated {
+                UIView.animate(withDuration: 0.5, delay: 0.2) {
+                    self.parentView.layoutIfNeeded()
+                }
+            } else {
+                self.parentView.setNeedsLayout()
+            }
         }
 
         private func setupLayoutManager() {
@@ -71,7 +77,19 @@ extension MainViewController {
 
         @objc
         private func updateForCurrentOrientation() {
-            updateInnerLayoutManager(for: UIDevice.current.orientation)
+            let updatedOrientation = UIDevice.current.orientation
+
+            switch updatedOrientation {
+            case .portrait, .landscapeLeft, .landscapeRight:
+                break
+            default:
+                // do not reconfigure if some orientation is already in use
+                if innerLayoutManager != nil {
+                    return
+                }
+            }
+
+            updateInnerLayoutManager(for: updatedOrientation)
             innerLayoutManager?.setupInitialConstraints(isExpanded: isPlaygroundViewExpanded)
             updateConstraints(isExpanded: isPlaygroundViewExpanded, animated: false)
         }
@@ -82,7 +100,7 @@ extension MainViewController {
             parentView.addSubview(playgroundConfigurationView)
             parentView.addSubview(playgroundView)
 
-            innerLayoutManager = orientation.isPortrait ? PortraitLayoutManager(parentView: parentView, playgroundView: playgroundView, playgroundConfigurationView: playgroundConfigurationView) : LandscapeLayoutManager(parentView: parentView, playgroundView: playgroundView, playgroundConfigurationView: playgroundConfigurationView)
+            innerLayoutManager = orientation.isLandscape ? LandscapeLayoutManager(parentView: parentView, playgroundView: playgroundView, playgroundConfigurationView: playgroundConfigurationView) : PortraitLayoutManager(parentView: parentView, playgroundView: playgroundView, playgroundConfigurationView: playgroundConfigurationView)
         }
     }
 
@@ -156,7 +174,7 @@ extension MainViewController {
 
         private lazy var playgroundViewTopToSafeAreaAnchor = playgroundView.topAnchor.constraint(equalTo: parentView.safeAreaLayoutGuide.topAnchor, constant: .doublePadding)
         private lazy var playgroundViewBottomToSafeAreaAnchor = playgroundView.bottomAnchor.constraint(equalTo: parentView.safeAreaLayoutGuide.bottomAnchor)
-        private lazy var playgroundViewLeadingToSafeAreaAnchor = playgroundView.leadingAnchor.constraint(equalTo: parentView.safeAreaLayoutGuide.leadingAnchor)
+        private lazy var playgroundViewLeadingToSafeAreaAnchor = playgroundView.leadingAnchor.constraint(equalTo: parentView.safeAreaLayoutGuide.leadingAnchor, constant: UIDevice.current.userInterfaceIdiom == .pad ? .doublePadding : 0)
         private lazy var playgroundViewTrailingToCenterXAnchor = playgroundView.trailingAnchor.constraint(equalTo: parentView.centerXAnchor)
 
         private lazy var playgroundViewExpandedTopAnchor = playgroundView.topAnchor.constraint(equalTo: parentView.topAnchor)
