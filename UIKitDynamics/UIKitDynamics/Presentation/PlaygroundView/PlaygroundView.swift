@@ -38,6 +38,7 @@ final class PlaygroundView: UIView {
         return behavior
     }()
 
+    private var interactiveSubviews: Set<UIView> = []
 
     // MARK: - Methods
 
@@ -53,6 +54,17 @@ final class PlaygroundView: UIView {
 
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func removeAllInteractiveSubviews() {
+        fadeOutAllInteractiveSubviews { _ in
+            self.interactiveSubviews.forEach {
+                $0.removeFromSuperview()
+                self.removeDynamics(from: $0)
+            }
+
+            self.interactiveSubviews = []
+        }
     }
 
     // MARK: Lifecycle
@@ -73,6 +85,8 @@ final class PlaygroundView: UIView {
         setupShadow()
         setupExpandButton()
         setupGestures()
+
+        // TODO: Register for orientation change and remove the views outside bounds
     }
 
     private func setupShadow() {
@@ -145,6 +159,7 @@ final class PlaygroundView: UIView {
         interactiveSubview.backgroundColor = [UIColor.systemRed, UIColor.systemBlue, UIColor.systemGreen, UIColor.systemMint].randomElement()
 
         addSubview(interactiveSubview)
+        interactiveSubviews.insert(interactiveSubview)
         addDynamics(to: interactiveSubview)
     }
 
@@ -153,11 +168,26 @@ final class PlaygroundView: UIView {
         gravityBehavor.addItem(subview)
     }
 
+    private func removeDynamics(from subview: UIView) {
+        collisionBehavior.removeItem(subview)
+        gravityBehavor.removeItem(subview)
+    }
+
+    private func fadeOutAllInteractiveSubviews(completion: ((Bool) -> Void)? = nil) {
+        UIView.animate(withDuration: 0.2, animations: {
+            self.interactiveSubviews.forEach { $0.alpha = 0 }
+        }, completion: completion)
+    }
+
     // MARK: Actions
 
     @objc private func handleExpandButtonTap() {
         delegate?.playgroundViewDidRequestExpansion(self)
         updateExpandButton()
         shimmerExpandButton()
+
+        if !(delegate?.playgroundViewIsExpanded(self) ?? false) {
+            removeAllInteractiveSubviews()
+        }
     }
 }

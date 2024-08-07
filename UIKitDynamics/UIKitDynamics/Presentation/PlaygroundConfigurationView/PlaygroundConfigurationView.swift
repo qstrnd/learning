@@ -41,6 +41,7 @@ final class PlaygroundConfigurationView: UIView {
     private func setupCollectionView() {
         var configuration = UICollectionLayoutListConfiguration(appearance: .plain)
         configuration.backgroundColor = .secondarySystemBackground
+        configuration.showsSeparators = false
         let layout = UICollectionViewCompositionalLayout.list(using: configuration)
         collectionView.setCollectionViewLayout(layout, animated: false)
         dataSource.setup(with: collectionView)

@@ -30,7 +30,12 @@ final class MainViewController: UIViewController {
         }
     }
 
-    private let playgroundConfigurationView = PlaygroundConfigurationView(viewModel: .init(contentFactory:  DefaultPlaygroundConfigurationItemFactory()))
+    private lazy var playgroundConfigurationView = PlaygroundConfigurationView(
+        viewModel: .init(
+            contentFactory:  DefaultPlaygroundConfigurationItemFactory(),
+            delegate: self
+        )
+    )
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -81,5 +86,11 @@ extension MainViewController: PlaygroundViewDelegate {
 extension MainViewController: PlaygroundConfigurationViewDelegate {
     func playgroundConfigurationViewWillApplyTopInset(_ playgroundConfigurationView: PlaygroundConfigurationView) -> CGFloat {
         layoutManager.calculateTopInsetForPlaygroundConfigurationViewContent()
+    }
+}
+
+extension MainViewController: PlaygroundConfigurationViewModelDelegate {
+    func playgroundConfigurationViewModelDidRequestDelectionForInteractiveViews(_ viewModel: PlaygroundConfigurationView.ViewModel) {
+        playgroundView.removeAllInteractiveSubviews()
     }
 }

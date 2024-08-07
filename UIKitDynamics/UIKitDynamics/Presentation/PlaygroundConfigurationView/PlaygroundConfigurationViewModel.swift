@@ -8,6 +8,10 @@
 import Combine
 import UIKit
 
+protocol PlaygroundConfigurationViewModelDelegate: AnyObject {
+    func playgroundConfigurationViewModelDidRequestDelectionForInteractiveViews(_ viewModel: PlaygroundConfigurationView.ViewModel)
+}
+
 protocol PlaygroundConfigurationItemFactory {
     func createContentItems() -> [PlaygroundConfigurationView.ContentItem]
 }
@@ -17,24 +21,12 @@ extension PlaygroundConfigurationView {
         case singleSection
     }
 
-    struct ContentItem: Hashable, Identifiable {
-        let id: String
-        let title: String
-        let variant: Variant
+    enum ContentItem: String, Identifiable {
+        case clearInteractiveViewsButton
+        case useMotionForGravitySwitch
 
-        enum Variant {
-            case toggle(Bool)
-            case button
-            case stepper(Int)
-            case text(String)
-        }
-
-        func hash(into hasher: inout Hasher) {
-            hasher.combine(id)
-        }
-
-        static func ==(lhs: ContentItem, rhs: ContentItem) -> Bool {
-            lhs.id == rhs.id
+        var id: String {
+            rawValue
         }
     }
 
@@ -42,9 +34,34 @@ extension PlaygroundConfigurationView {
         lazy var content = _content.eraseToAnyPublisher()
         private let _content = CurrentValueSubject<[ContentItem], Never>([])
 
-        init(contentFactory: PlaygroundConfigurationItemFactory) {
+        weak var delegate: PlaygroundConfigurationViewModelDelegate?
+
+        init(contentFactory: PlaygroundConfigurationItemFactory, delegate: PlaygroundConfigurationViewModelDelegate) {
             self._content.value = contentFactory.createContentItems()
+            self.delegate = delegate
         }
+
+        func getConfigurationModel(for item: ContentItem) -> CellConfigurationModel {
+            switch item {
+            case .clearInteractiveViewsButton:
+                return .button(.init(title: "Clear", image: UIImage(systemName: "trash.circle.fill"), onTap: { [weak self] in
+                    self?.clearAllInteractiveViews()
+                }))
+            case .useMotionForGravitySwitch:
+                return .switch(.init(isOn: false, onUpdate: { [weak self] newValue in
+                    self?.updateMotionEnabled(to: newValue)
+                }))
+            }
+        }
+
+        private func updateMotionEnabled(to newValue: Bool) {
+
+        }
+
+        private func clearAllInteractiveViews() {
+            delegate?.playgroundConfigurationViewModelDidRequestDelectionForInteractiveViews(self)
+        }
+
     }
 
     final class DataSource {
@@ -62,15 +79,21 @@ extension PlaygroundConfigurationView {
                 return
             }
 
-            let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, ContentItem> { cell, _, contentItem in
-                var content = cell.defaultContentConfiguration()
-                content.text = contentItem.title
+            let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, ContentItem> { [unowned self] cell, _, contentItem in
 
-                var background = cell.defaultBackgroundConfiguration()
-                background.backgroundColorTransformer = UIConfigurationColorTransformer { _ in .clear }
+                let configurationModel = viewModel.getConfigurationModel(for: contentItem)
+                let contentConfiguration: UIContentConfiguration
+                switch configurationModel {
+                case let .button(model):
+                    contentConfiguration = self.getButtonConfiguration(for: cell, model: model)
+                case let .text(model):
+                    contentConfiguration = self.getTextConfiguration(for: cell, model: model)
+                case let .switch(model):
+                    contentConfiguration = self.getSwitchConfiguration(for: cell, model: model)
+                }
 
-                cell.contentConfiguration = content
-                cell.backgroundConfiguration = background
+                cell.contentConfiguration = contentConfiguration
+                cell.backgroundConfiguration = getBackgroundConfiguration(for: cell)
             }
 
             let diffableDataSource = UICollectionViewDiffableDataSource<SectionItem, ContentItem>(collectionView: collectionView) { collectionView, indexPath, contentItem in
@@ -92,6 +115,45 @@ extension PlaygroundConfigurationView {
             snapshot.appendSections([SectionItem.singleSection])
             snapshot.appendItems(content)
             diffableDataSource?.apply(snapshot)
+        }
+
+        private func getButtonConfiguration(for cell: UICollectionViewListCell, model: CellConfigurationModel.Button) -> UIContentConfiguration {
+            var buttonConfiguration = UIButton.Configuration.tinted()
+            buttonConfiguration.title = model.title
+            buttonConfiguration.cornerStyle = .capsule
+
+            if let image = model.image {
+                buttonConfiguration.image = image
+                buttonConfiguration.imagePadding = 8
+                buttonConfiguration.imagePlacement = .leading
+            }
+
+            let content = ButtonCellConfiguration(buttonConfiguration: buttonConfiguration, onButtonTap: model.onTap)
+
+            return content
+        }
+
+        private func getSwitchConfiguration(for cell: UICollectionViewListCell, model: CellConfigurationModel.Switch) -> UIContentConfiguration {
+            var content = cell.defaultContentConfiguration()
+
+            // TODO: Configure
+
+            return content
+        }
+
+        private func getTextConfiguration(for cell: UICollectionViewListCell, model: CellConfigurationModel.Text) -> UIContentConfiguration {
+            var content = cell.defaultContentConfiguration()
+            content.text = model.title
+            content.secondaryText = model.subtitle
+
+            return content
+        }
+
+        private func getBackgroundConfiguration(for cell: UICollectionViewCell) -> UIBackgroundConfiguration {
+            var background = cell.defaultBackgroundConfiguration()
+            background.backgroundColorTransformer = UIConfigurationColorTransformer { _ in .clear }
+
+            return background
         }
     }
 }
