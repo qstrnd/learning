@@ -34,7 +34,6 @@ final class MainViewController: UIViewController {
 
     private lazy var playgroundConfigurationView = PlaygroundConfigurationView(
         viewModel: .init(
-            contentFactory:  DefaultPlaygroundConfigurationItemFactory(),
             interactiveObjectsService: interactiveObjectsManager
         )
     )

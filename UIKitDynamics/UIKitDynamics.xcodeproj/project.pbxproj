@@ -13,7 +13,6 @@
 		A12F35092C641C8100758AA1 /* PlaygroundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12F35082C641C8100758AA1 /* PlaygroundViewModel.swift */; };
 		A14B8A832C6290020069D760 /* PlaygroundConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B8A822C6290020069D760 /* PlaygroundConfigurationView.swift */; };
 		A14B8A862C6292550069D760 /* PlaygroundConfigurationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B8A852C6292550069D760 /* PlaygroundConfigurationViewModel.swift */; };
-		A14B8A882C629F290069D760 /* DefaultPlaygroundConfigurationItemFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B8A872C629F290069D760 /* DefaultPlaygroundConfigurationItemFactory.swift */; };
 		A14B8A8B2C62ADE80069D760 /* MainViewController+LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B8A8A2C62ADE80069D760 /* MainViewController+LayoutManager.swift */; };
 		A19521A02C51763E00113137 /* PlaygroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A195219F2C51763E00113137 /* PlaygroundView.swift */; };
 		A19521A22C51799500113137 /* Constants+UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19521A12C51799500113137 /* Constants+UI.swift */; };
@@ -34,7 +33,6 @@
 		A12F35082C641C8100758AA1 /* PlaygroundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundViewModel.swift; sourceTree = "<group>"; };
 		A14B8A822C6290020069D760 /* PlaygroundConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundConfigurationView.swift; sourceTree = "<group>"; };
 		A14B8A852C6292550069D760 /* PlaygroundConfigurationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundConfigurationViewModel.swift; sourceTree = "<group>"; };
-		A14B8A872C629F290069D760 /* DefaultPlaygroundConfigurationItemFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultPlaygroundConfigurationItemFactory.swift; sourceTree = "<group>"; };
 		A14B8A8A2C62ADE80069D760 /* MainViewController+LayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+LayoutManager.swift"; sourceTree = "<group>"; };
 		A195219F2C51763E00113137 /* PlaygroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundView.swift; sourceTree = "<group>"; };
 		A19521A12C51799500113137 /* Constants+UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Constants+UI.swift"; sourceTree = "<group>"; };
@@ -83,7 +81,6 @@
 		A12F34F82C63D49500758AA1 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				A14B8A872C629F290069D760 /* DefaultPlaygroundConfigurationItemFactory.swift */,
 				A12F35062C64131100758AA1 /* InteractiveObjectsManager.swift */,
 			);
 			path = Data;
@@ -268,7 +265,6 @@
 				A12F35072C64131100758AA1 /* InteractiveObjectsManager.swift in Sources */,
 				A1AFE6C52C502313005BFE6A /* SceneDelegate.swift in Sources */,
 				A19521A02C51763E00113137 /* PlaygroundView.swift in Sources */,
-				A14B8A882C629F290069D760 /* DefaultPlaygroundConfigurationItemFactory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

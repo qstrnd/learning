@@ -8,10 +8,6 @@
 import Combine
 import UIKit
 
-protocol PlaygroundConfigurationItemFactory {
-    func createContentItems() -> [PlaygroundConfigurationView.ContentItem]
-}
-
 extension PlaygroundConfigurationView {
     enum SectionItem {
         case singleSection
@@ -31,9 +27,25 @@ extension PlaygroundConfigurationView {
         private let _content = CurrentValueSubject<[ContentItem], Never>([])
         private let interactiveObjectsService: InteractiveObjectsObserving
 
-        init(contentFactory: PlaygroundConfigurationItemFactory, interactiveObjectsService: InteractiveObjectsObserving) {
-            self._content.value = contentFactory.createContentItems()
+        static var initialContentItems: [ContentItem] = [.useMotionForGravitySwitch]
+
+        private var cancellables: Set<AnyCancellable> = []
+
+        init(interactiveObjectsService: InteractiveObjectsObserving) {
+            self._content.value = Self.initialContentItems
             self.interactiveObjectsService = interactiveObjectsService
+
+            interactiveObjectsService.count
+                .map { $0 > 0 }
+                .removeDuplicates()
+                .sink { [unowned self] countIsNotEmpty  in
+                    if countIsNotEmpty {
+                        self._content.value = [.clearInteractiveViewsButton] + Self.initialContentItems
+                    } else {
+                        self._content.value = Self.initialContentItems
+                    }
+                }
+                .store(in: &cancellables)
         }
 
         func getConfigurationModel(for item: ContentItem) -> CellConfigurationModel {
