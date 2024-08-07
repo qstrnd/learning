@@ -7,41 +7,76 @@
 
 import UIKit
 
-protocol ViewControllerLayoutManager {
-    func setupInitialConstraints(isExpanded: Bool)
-    func updateConstraints(isExpanded: Bool)
-    func calculateTopInsetForPlaygroundConfigurationViewContent() -> CGFloat
-}
-
 extension MainViewController {
+    protocol LayoutManaging {
+        func setupInitialConstraints(isExpanded: Bool)
+        func updateConstraints(isExpanded: Bool)
+        func calculateTopInsetForPlaygroundConfigurationViewContent() -> CGFloat
+    }
+
     final class LayoutManager {
-        private var innerLayoutManager: ViewControllerLayoutManager?
+        var isPlaygroundViewExpanded: Bool {
+            didSet {
+                updateConstraints(isExpanded: isPlaygroundViewExpanded, animated: true)
+            }
+        }
+
+        private var innerLayoutManager: LayoutManaging?
 
         private let parentView: UIView
         private let playgroundView: UIView
         private let playgroundConfigurationView: UIView
 
-        init(parentView: UIView, playgroundView: UIView, playgroundConfigurationView: UIView) {
+        init(isPlaygroundViewExpanded: Bool, parentView: UIView, playgroundView: UIView, playgroundConfigurationView: UIView) {
             self.parentView = parentView
             self.playgroundView = playgroundView
             self.playgroundConfigurationView = playgroundConfigurationView
+            self.isPlaygroundViewExpanded = isPlaygroundViewExpanded
         }
 
-        func setupInitialConstraints(isExpanded: Bool) {
-            innerLayoutManager?.setupInitialConstraints(isExpanded: isExpanded)
+        deinit {
+            UIDevice.current.endGeneratingDeviceOrientationNotifications()
+            NotificationCenter.default.removeObserver(self, name: UIDevice.orientationDidChangeNotification, object: nil)
         }
 
-        func updateConstraints(isExpanded: Bool) {
-            innerLayoutManager?.updateConstraints(isExpanded: isExpanded)
+        // MARK: Internal
+
+        func setup() {
+            if innerLayoutManager == nil {
+                setupLayoutManager()
+            }
         }
 
         func calculateTopInsetForPlaygroundConfigurationViewContent() -> CGFloat {
             innerLayoutManager?.calculateTopInsetForPlaygroundConfigurationViewContent() ?? 0
         }
 
-        func prepare(for orientation: UIDeviceOrientation) {
-            guard orientation != .unknown else { return }
+        // MARK: Private
 
+        private func updateConstraints(isExpanded: Bool, animated: Bool = false) {
+            innerLayoutManager?.updateConstraints(isExpanded: isExpanded)
+
+            self.parentView.setNeedsLayout()
+        }
+
+        private func setupLayoutManager() {
+            setupObservers()
+            updateForCurrentOrientation()
+        }
+
+        private func setupObservers() {
+            UIDevice.current.beginGeneratingDeviceOrientationNotifications()
+            NotificationCenter.default.addObserver(self, selector: #selector(updateForCurrentOrientation), name: UIDevice.orientationDidChangeNotification, object: nil)
+        }
+
+        @objc
+        private func updateForCurrentOrientation() {
+            updateInnerLayoutManager(for: UIDevice.current.orientation)
+            innerLayoutManager?.setupInitialConstraints(isExpanded: isPlaygroundViewExpanded)
+            updateConstraints(isExpanded: isPlaygroundViewExpanded, animated: false)
+        }
+
+        private func updateInnerLayoutManager(for orientation: UIDeviceOrientation) {
             // as of now, I haven't found anything better than to remove and add back the views to apply constraints change
             [playgroundConfigurationView, playgroundView].forEach { $0.removeFromSuperview() }
             parentView.addSubview(playgroundConfigurationView)
@@ -51,7 +86,7 @@ extension MainViewController {
         }
     }
 
-    final class PortraitLayoutManager: ViewControllerLayoutManager {
+    final class PortraitLayoutManager: LayoutManaging {
         private let parentView: UIView
         private let playgroundView: UIView
         private let playgroundConfigurationView: UIView
@@ -114,7 +149,7 @@ extension MainViewController {
         }
     }
 
-    final class LandscapeLayoutManager: ViewControllerLayoutManager {
+    final class LandscapeLayoutManager: LayoutManaging {
         private let parentView: UIView
         private let playgroundView: UIView
         private let playgroundConfigurationView: UIView
