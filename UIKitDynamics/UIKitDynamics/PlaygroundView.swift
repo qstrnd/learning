@@ -52,6 +52,7 @@ final class PlaygroundView: UIView {
         
         setupShadow()
         setupExpandButton()
+        setupGestures()
     }
 
     private func setupShadow() {
@@ -59,6 +60,18 @@ final class PlaygroundView: UIView {
         layer.shadowOpacity = 0.15
         layer.shadowOffset = CGSize(width: 0, height: 2)
         layer.shadowRadius = 5
+    }
+
+    private func setupGestures() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(handleTapAction(tap:)))
+        addGestureRecognizer(tap)
+    }
+
+    @objc
+    private func handleTapAction(tap: UITapGestureRecognizer) {
+        let tapLocation = tap.location(in: self)
+        let effect = RippleEffect(startingPoint: tapLocation)
+        apply(effect: effect)
     }
 
     // MARK: Expand Button
