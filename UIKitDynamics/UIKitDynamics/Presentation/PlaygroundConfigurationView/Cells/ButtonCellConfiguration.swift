@@ -5,16 +5,25 @@
 //  Created by Andy on 2024-08-07.
 //
 
+import Combine
+import CombineCocoa
 import UIKit
 
 struct ButtonCellConfiguration: UIContentConfiguration {
-    let buttonConfiguration: UIButton.Configuration
-    let onButtonTap: () -> Void
+
+    let buttonConfiguration: CurrentValueSubject<UIButton.Configuration, Never>
+    let didTapButton: PassthroughSubject<Void, Never>
+
+    init(buttonConfiguration: CurrentValueSubject<UIButton.Configuration, Never>, didTapButton: PassthroughSubject<Void, Never>) {
+        self.buttonConfiguration = buttonConfiguration
+        self.didTapButton = didTapButton
+    }
 
     func makeContentView() -> UIView & UIContentView {
         ButtonCellContentView(configuration: self)
     }
-    func updated(for state: UIConfigurationState) -> ButtonCellConfiguration {
+
+    func updated(for state: UIConfigurationState) -> Self {
         return self
     }
 }
@@ -26,6 +35,7 @@ final class ButtonCellContentView: UIView, UIContentView {
         }
     }
 
+    private var cancellables: Set<AnyCancellable> = []
     private let button = UIButton(type: .system)
 
     init(configuration: UIContentConfiguration) {
@@ -48,20 +58,29 @@ final class ButtonCellContentView: UIView, UIContentView {
             button.topAnchor.constraint(equalTo: topAnchor, constant: .standardPadding),
             button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -.standardPadding)
         ])
-
-        button.addTarget(self, action: #selector(handleButtonTap), for: .touchUpInside)
     }
 
     private func applyCurrentConfiguration() {
-        guard let configuration = self.configuration as? ButtonCellConfiguration else { return }
+        guard let viewModel = self.configuration as? ButtonCellConfiguration else { return }
 
-        button.configuration = configuration.buttonConfiguration
+        bindViewModel(viewModel)
     }
 
-    @objc
-    private func handleButtonTap() {
-        guard let configuration = self.configuration as? ButtonCellConfiguration else { return }
+    private func bindViewModel(_ viewModel: ButtonCellConfiguration) {
+        cancellables = []
 
-        configuration.onButtonTap()
+        button.tapPublisher
+            .receive(on: DispatchQueue.main)
+            .sink {
+                viewModel.didTapButton.send(())
+            }
+            .store(in: &cancellables)
+
+        viewModel.buttonConfiguration
+            .sink { [unowned self] configuration in
+                button.configuration = configuration
+            }
+            .store(in: &cancellables)
+
     }
 }

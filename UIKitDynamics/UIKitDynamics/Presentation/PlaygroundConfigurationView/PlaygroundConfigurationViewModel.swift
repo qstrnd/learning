@@ -14,8 +14,8 @@ extension PlaygroundConfigurationView {
     }
 
     enum ContentItem: String, Identifiable {
-        case clearInteractiveViewsButton
-        case useMotionForGravitySwitch
+        case clearInteractiveObjectsButton
+        case randomizeObjectsStyleSwitch
         case minMaxInteractiveObjectDimensionSlider
 
         var id: String {
@@ -26,10 +26,12 @@ extension PlaygroundConfigurationView {
     final class ViewModel {
         lazy var content = _content.eraseToAnyPublisher()
         private let _content = CurrentValueSubject<[ContentItem], Never>([])
+
         private let interactiveObjectsService: InteractiveObjectsObserving
         private let interactivePreferencesService: InteractiveObjectsPreferencesKeeping
 
-        static var initialContentItems: [ContentItem] = [.useMotionForGravitySwitch, .minMaxInteractiveObjectDimensionSlider]
+        private let didTapClearInteractiveObjectsButton = PassthroughSubject<Void, Never>()
+        private let didUpdateMinMaxObjectDimensions = PassthroughSubject<(CGFloat, CGFloat), Never>()
 
         private var cancellables: Set<AnyCancellable> = []
 
@@ -37,68 +39,139 @@ extension PlaygroundConfigurationView {
             interactiveObjectsService: InteractiveObjectsObserving,
             interactivePreferencesService: InteractiveObjectsPreferencesKeeping
         ) {
-            self._content.value = Self.initialContentItems
             self.interactiveObjectsService = interactiveObjectsService
             self.interactivePreferencesService = interactivePreferencesService
 
-            interactiveObjectsService.count
-                .map { $0 > 0 }
+            setupBindings()
+        }
+
+        private func setupBindings() {
+            let isObjectCountEmptyPublisher = interactiveObjectsService.count
+                .map { $0 == 0 }
                 .removeDuplicates()
-                .sink { [unowned self] countIsNotEmpty  in
-                    if countIsNotEmpty {
-                        self._content.value = Self.initialContentItems + [.clearInteractiveViewsButton]
-                    } else {
-                        self._content.value = Self.initialContentItems
-                    }
+                .eraseToAnyPublisher()
+
+            Publishers.CombineLatest(isObjectCountEmptyPublisher, interactivePreferencesService.isRandomizationEnabled)
+                .sink { [unowned self] (isObjectCountEmpty, isRandomizedObjectStyleEnabled) in
+                    self._content.value = self.buildContentItems(
+                        isObjectCountEmpty: isObjectCountEmpty,
+                        isRandomizedObjectStyleEnabled: isRandomizedObjectStyleEnabled
+                    )
+                }
+                .store(in: &cancellables)
+
+            didTapClearInteractiveObjectsButton
+                .sink { [unowned self] in
+                    self.interactiveObjectsService.requestAllItemsRemoval()
+                }
+                .store(in: &cancellables)
+
+            didUpdateMinMaxObjectDimensions
+                .throttle(for: .seconds(0.5), scheduler: DispatchQueue.main, latest: true)
+                .sink { [unowned self] (min, max) in
+                    self.updateMinMaxDimensions(min: min, max: max)
                 }
                 .store(in: &cancellables)
         }
 
-        func getConfigurationModel(for item: ContentItem) -> CellConfigurationModel {
+        private func buildContentItems(
+            isObjectCountEmpty: Bool,
+            isRandomizedObjectStyleEnabled: Bool
+        ) -> [ContentItem] {
+            var items: [ContentItem] = []
+
+            items.append(.randomizeObjectsStyleSwitch)
+            if isRandomizedObjectStyleEnabled {
+                items.append(.minMaxInteractiveObjectDimensionSlider)
+            }
+
+            if !isObjectCountEmpty {
+                items.append(.clearInteractiveObjectsButton)
+            }
+
+            return items
+        }
+
+        func getContentConfiguration(for item: ContentItem, in cell: UICollectionViewListCell) -> UIContentConfiguration {
             switch item {
-            case .clearInteractiveViewsButton:
-                return .button(.init(title: "Clear", image: UIImage(systemName: "trash.circle.fill"), onTap: { [weak self] in
-                    self?.clearAllInteractiveViews()
-                }))
-            case .useMotionForGravitySwitch:
-                return .switch(
-                    .init(
-                        title: "Use Accelerometer For Gravity",
-                        isOn: false,
-                        onUpdate: { [weak self] newValue in
-                            self?.updateMotionEnabled(to: newValue)
-                        }
-                    )
-                )
+            case .clearInteractiveObjectsButton:
+                return configurationForClearInteractiveObjectsButton()
+            case .randomizeObjectsStyleSwitch:
+                return configurationForRandomizeObjectsStyleSwitch(for: cell)
             case .minMaxInteractiveObjectDimensionSlider:
-                return .slider(
-                    .init(
-                        title: "Dimensions",
-                        minValue: Float(interactivePreferencesService.minPossibleDimension),
-                        maxValue: Float(interactivePreferencesService.maxPossibleDimension),
-                        selectedMinValue: Float(interactivePreferencesService.minDimension),
-                        selectedMaxValue: Float(interactivePreferencesService.maxDimension),
-                        onUpdate: { [weak self] min, max in
-                            self?.updateMinMaxDimensions(min: min, max: max)
-                        }
-                    )
-                )
+                return configurationForMinMaxInteractiveObjectDimensionSlider(for: cell)
             }
         }
 
-        private func updateMinMaxDimensions(min: Float, max: Float) {
-            interactivePreferencesService.minDimension = CGFloat(min)
-            interactivePreferencesService.maxDimension = CGFloat(max)
+        private func configurationForClearInteractiveObjectsButton() -> UIContentConfiguration {
+            var buttonConfiguration = getDefaultUIButtonConfiguration()
+            buttonConfiguration.title = "Clear"
+            buttonConfiguration.image = UIImage(systemName: "trash.circle.fill")
+
+            return ButtonCellConfiguration(
+                buttonConfiguration: CurrentValueSubject(buttonConfiguration),
+                didTapButton: didTapClearInteractiveObjectsButton
+            )
         }
 
-        private func updateMotionEnabled(to newValue: Bool) {
-            print("Enable motion \(newValue)")
+        private func getDefaultUIButtonConfiguration() -> UIButton.Configuration {
+            var buttonConfiguration = UIButton.Configuration.tinted()
+            buttonConfiguration.cornerStyle = .capsule
+
+            buttonConfiguration.imagePadding = 8
+            buttonConfiguration.imagePlacement = .leading
+
+            return buttonConfiguration
+        }
+
+        private func configurationForRandomizeObjectsStyleSwitch(for cell: UICollectionViewListCell) -> UIContentConfiguration {
+            var cellConfiguration = cell.defaultContentConfiguration()
+            cellConfiguration.text = "Randomize objects style"
+
+            let switchView = UISwitch(frame: .zero, primaryAction: .init(handler: { action in
+                guard let senderSwitch = action.sender as? UISwitch else { return }
+                self.updateRandomizeObjectsStyleEnabled(to: senderSwitch.isOn)
+            }))
+
+            switchView.isOn = interactivePreferencesService.isRandomizationEnabled.value
+
+            cell.accessories = [
+                .customView(
+                    configuration: .init(
+                        customView: switchView,
+                        placement: .trailing(displayed: .always)
+                    )
+                )
+            ]
+
+            return cellConfiguration
+        }
+
+        private func configurationForMinMaxInteractiveObjectDimensionSlider(for cell: UICollectionViewListCell) -> UIContentConfiguration {
+            let content = RangeSliderCellConfiguration(
+                title: "Dimensions",
+                minValue: interactivePreferencesService.minPossibleDimension,
+                maxValue: interactivePreferencesService.maxPossibleDimension,
+                selectedMinValue: interactivePreferencesService.minDimension,
+                selectedMaxValue: interactivePreferencesService.maxDimension,
+                onValueChanged: didUpdateMinMaxObjectDimensions
+            )
+
+            return content
+        }
+
+        private func updateMinMaxDimensions(min: CGFloat, max: CGFloat) {
+            interactivePreferencesService.minDimension = min
+            interactivePreferencesService.maxDimension = max
+        }
+
+        private func updateRandomizeObjectsStyleEnabled(to newValue: Bool) {
+            interactivePreferencesService.isRandomizationEnabled.send(newValue)
         }
 
         private func clearAllInteractiveViews() {
             interactiveObjectsService.requestAllItemsRemoval()
         }
-
     }
 
     final class DataSource {
@@ -117,21 +190,7 @@ extension PlaygroundConfigurationView {
             }
 
             let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, ContentItem> { [unowned self] cell, _, contentItem in
-
-                let configurationModel = viewModel.getConfigurationModel(for: contentItem)
-                let contentConfiguration: UIContentConfiguration
-                switch configurationModel {
-                case let .button(model):
-                    contentConfiguration = self.getButtonConfiguration(for: cell, model: model)
-                case let .text(model):
-                    contentConfiguration = self.getTextConfiguration(for: cell, model: model)
-                case let .switch(model):
-                    contentConfiguration = self.getSwitchConfiguration(for: cell, model: model)
-                case let .slider(model):
-                    contentConfiguration = self.getSliderConfiguration(for: cell, model: model)
-                }
-
-                cell.contentConfiguration = contentConfiguration
+                cell.contentConfiguration = viewModel.getContentConfiguration(for: contentItem, in: cell)
                 cell.backgroundConfiguration = getBackgroundConfiguration(for: cell)
             }
 
@@ -154,60 +213,6 @@ extension PlaygroundConfigurationView {
             snapshot.appendSections([SectionItem.singleSection])
             snapshot.appendItems(content)
             diffableDataSource?.apply(snapshot)
-        }
-
-        private func getButtonConfiguration(for cell: UICollectionViewListCell, model: CellConfigurationModel.Button) -> UIContentConfiguration {
-            var buttonConfiguration = UIButton.Configuration.tinted()
-            buttonConfiguration.title = model.title
-            buttonConfiguration.cornerStyle = .capsule
-
-            if let image = model.image {
-                buttonConfiguration.image = image
-                buttonConfiguration.imagePadding = 8
-                buttonConfiguration.imagePlacement = .leading
-            }
-
-            return ButtonCellConfiguration(buttonConfiguration: buttonConfiguration, onButtonTap: model.onTap)
-        }
-
-        private func getSwitchConfiguration(for cell: UICollectionViewListCell, model: CellConfigurationModel.Switch) -> UIContentConfiguration {
-            var content = cell.defaultContentConfiguration()
-            content.text = model.title
-
-            let switchView = UISwitch(frame: .zero, primaryAction: .init(handler: { action in
-                guard let senderSwitch = action.sender as? UISwitch else { return }
-                model.onUpdate(senderSwitch.isOn)
-            }))
-
-            cell.accessories = [
-                .customView(
-                    configuration: .init(
-                        customView: switchView,
-                        placement: .trailing(displayed: .always)
-                    )
-                )
-            ]
-
-            return content
-        }
-
-        private func getSliderConfiguration(for cell: UICollectionViewListCell, model: CellConfigurationModel.Slider) -> UIContentConfiguration {
-            RangeSliderCellConfiguration(
-                title: model.title,
-                minValue: model.minValue,
-                maxValue: model.maxValue,
-                selectedMinValue: model.selectedMinValue,
-                selectedMaxValue: model.selectedMaxValue,
-                onValueChanged: model.onUpdate
-            )
-        }
-
-        private func getTextConfiguration(for cell: UICollectionViewListCell, model: CellConfigurationModel.Text) -> UIContentConfiguration {
-            var content = cell.defaultContentConfiguration()
-            content.text = model.title
-            content.secondaryText = model.subtitle
-
-            return content
         }
 
         private func getBackgroundConfiguration(for cell: UICollectionViewCell) -> UIBackgroundConfiguration {

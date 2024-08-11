@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		A12F35032C63F04A00758AA1 /* ButtonCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12F35022C63F04A00758AA1 /* ButtonCellConfiguration.swift */; };
-		A12F35052C63FD8A00758AA1 /* CellConfigurationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12F35042C63FD8A00758AA1 /* CellConfigurationModel.swift */; };
 		A12F35072C64131100758AA1 /* InteractiveObjectsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12F35062C64131100758AA1 /* InteractiveObjectsManager.swift */; };
 		A12F35092C641C8100758AA1 /* PlaygroundViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12F35082C641C8100758AA1 /* PlaygroundViewModel.swift */; };
 		A12F350B2C6424BE00758AA1 /* InteractiveObjectsPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12F350A2C6424BE00758AA1 /* InteractiveObjectsPreferences.swift */; };
@@ -24,6 +23,7 @@
 		A19DCE442C638FF300F51EE0 /* ViewEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19DCE432C638FF300F51EE0 /* ViewEffect.swift */; };
 		A19DCE462C63903900F51EE0 /* RippleEffect.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19DCE452C63903900F51EE0 /* RippleEffect.swift */; };
 		A19DCE482C639C1A00F51EE0 /* HapticFeedbackGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A19DCE472C639C1A00F51EE0 /* HapticFeedbackGenerator.swift */; };
+		A1A63C2E2C65069700A3C9BF /* CombineCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = A1A63C2D2C65069700A3C9BF /* CombineCocoa */; };
 		A1AFE6C32C502313005BFE6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFE6C22C502313005BFE6A /* AppDelegate.swift */; };
 		A1AFE6C52C502313005BFE6A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFE6C42C502313005BFE6A /* SceneDelegate.swift */; };
 		A1AFE6C72C502313005BFE6A /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AFE6C62C502313005BFE6A /* MainViewController.swift */; };
@@ -33,7 +33,6 @@
 
 /* Begin PBXFileReference section */
 		A12F35022C63F04A00758AA1 /* ButtonCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonCellConfiguration.swift; sourceTree = "<group>"; };
-		A12F35042C63FD8A00758AA1 /* CellConfigurationModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellConfigurationModel.swift; sourceTree = "<group>"; };
 		A12F35062C64131100758AA1 /* InteractiveObjectsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveObjectsManager.swift; sourceTree = "<group>"; };
 		A12F35082C641C8100758AA1 /* PlaygroundViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundViewModel.swift; sourceTree = "<group>"; };
 		A12F350A2C6424BE00758AA1 /* InteractiveObjectsPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InteractiveObjectsPreferences.swift; sourceTree = "<group>"; };
@@ -63,6 +62,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A1A63C2E2C65069700A3C9BF /* CombineCocoa in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,7 +131,6 @@
 			children = (
 				A12F350C2C642F0200758AA1 /* RangeSliderCollectionCell */,
 				A12F35022C63F04A00758AA1 /* ButtonCellConfiguration.swift */,
-				A12F35042C63FD8A00758AA1 /* CellConfigurationModel.swift */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -219,6 +218,9 @@
 			dependencies = (
 			);
 			name = UIKitDynamics;
+			packageProductDependencies = (
+				A1A63C2D2C65069700A3C9BF /* CombineCocoa */,
+			);
 			productName = UIKitDynamics;
 			productReference = A1AFE6BF2C502313005BFE6A /* UIKitDynamics.app */;
 			productType = "com.apple.product-type.application";
@@ -247,6 +249,9 @@
 				Base,
 			);
 			mainGroup = A1AFE6B62C502313005BFE6A;
+			packageReferences = (
+				A1A63C2C2C65069700A3C9BF /* XCRemoteSwiftPackageReference "CombineCocoa" */,
+			);
 			productRefGroup = A1AFE6C02C502313005BFE6A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -285,7 +290,6 @@
 				A12F350B2C6424BE00758AA1 /* InteractiveObjectsPreferences.swift in Sources */,
 				A12F35102C642F3900758AA1 /* RangeSeekSliderDelegate.swift in Sources */,
 				A14B8A862C6292550069D760 /* PlaygroundConfigurationViewModel.swift in Sources */,
-				A12F35052C63FD8A00758AA1 /* CellConfigurationModel.swift in Sources */,
 				A1AFE6C32C502313005BFE6A /* AppDelegate.swift in Sources */,
 				A12F35032C63F04A00758AA1 /* ButtonCellConfiguration.swift in Sources */,
 				A12F35122C642F4500758AA1 /* RangeSeekSlider.swift in Sources */,
@@ -507,6 +511,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A1A63C2C2C65069700A3C9BF /* XCRemoteSwiftPackageReference "CombineCocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/CombineCommunity/CombineCocoa.git";
+			requirement = {
+				kind = exactVersion;
+				version = 0.4.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A1A63C2D2C65069700A3C9BF /* CombineCocoa */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A1A63C2C2C65069700A3C9BF /* XCRemoteSwiftPackageReference "CombineCocoa" */;
+			productName = CombineCocoa;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A1AFE6B72C502313005BFE6A /* Project object */;
 }

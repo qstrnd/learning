@@ -5,15 +5,16 @@
 //  Created by Andy on 2024-08-08.
 //
 
+import Combine
 import UIKit
 
 struct RangeSliderCellConfiguration: UIContentConfiguration {
     let title: String
-    let minValue: Float
-    let maxValue: Float
-    let selectedMinValue: Float
-    let selectedMaxValue: Float
-    let onValueChanged: (_ min: Float, _ max: Float) -> Void
+    let minValue: CGFloat
+    let maxValue: CGFloat
+    let selectedMinValue: CGFloat
+    let selectedMaxValue: CGFloat
+    let onValueChanged: PassthroughSubject<(CGFloat, CGFloat), Never>
 
     func makeContentView() -> UIView & UIContentView {
         RangeSliderCellContentView(configuration: self)
@@ -72,10 +73,10 @@ final class RangeSliderCellContentView: UIView, UIContentView {
     private func applyCurrentConfiguration() {
         guard let configuration = self.configuration as? RangeSliderCellConfiguration else { return }
 
-        slider.selectedMinValue = CGFloat(configuration.selectedMinValue)
-        slider.selectedMaxValue = CGFloat(configuration.selectedMaxValue)
-        slider.minValue = CGFloat(configuration.minValue)
-        slider.maxValue = CGFloat(configuration.maxValue)
+        slider.selectedMinValue = configuration.selectedMinValue
+        slider.selectedMaxValue = configuration.selectedMaxValue
+        slider.minValue = configuration.minValue
+        slider.maxValue = configuration.maxValue
 
         title.text = configuration.title
     }
@@ -85,6 +86,6 @@ extension RangeSliderCellContentView: RangeSeekSliderDelegate {
     func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
         guard let configuration = self.configuration as? RangeSliderCellConfiguration else { return }
 
-        configuration.onValueChanged(Float(slider.selectedMinValue), Float(slider.selectedMaxValue))
+        configuration.onValueChanged.send((slider.selectedMinValue, slider.selectedMaxValue))
     }
 }

@@ -138,13 +138,13 @@ final class PlaygroundView: UIView {
     // MARK: Dynamics
 
     private func createInteractiveSubview(at viewCenterPoint: CGPoint) {
-        let viewDimension = viewModel.preferencesProvider.getRandomDimension()
+        let viewDimension = viewModel.preferencesProvider.getDimension()
         let viewOrigin = CGPoint(x: viewCenterPoint.x - viewDimension / 2, y: viewCenterPoint.y - viewDimension / 2)
         let viewFrame = CGRect(origin: viewOrigin, size: CGSize(width: viewDimension, height: viewDimension))
 
         let interactiveSubview = UIView()
         interactiveSubview.frame = viewFrame
-        interactiveSubview.backgroundColor = viewModel.preferencesProvider.getRandomColor()
+        interactiveSubview.backgroundColor = viewModel.preferencesProvider.getColor()
 
         addSubview(interactiveSubview)
         viewModel.registerInteractiveSubview(interactiveSubview)

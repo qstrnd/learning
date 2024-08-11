@@ -5,9 +5,11 @@
 //  Created by Andy on 2024-08-08.
 //
 
+import Combine
 import UIKit
 
 protocol InteractiveObjectsPreferencesKeeping: AnyObject {
+    var isRandomizationEnabled: CurrentValueSubject<Bool, Never> { get }
     var minDimension: CGFloat { get set }
     var maxDimension: CGFloat { get set }
     var colors: [UIColor] { get set }
@@ -16,8 +18,8 @@ protocol InteractiveObjectsPreferencesKeeping: AnyObject {
 }
 
 protocol InteractiveObjectsPreferencesProvider {
-    func getRandomDimension() -> CGFloat
-    func getRandomColor() -> UIColor
+    func getDimension() -> CGFloat
+    func getColor() -> UIColor
 }
 
 final class InteractiveObjectsPreferencesManager: InteractiveObjectsPreferencesKeeping, InteractiveObjectsPreferencesProvider {
@@ -28,11 +30,21 @@ final class InteractiveObjectsPreferencesManager: InteractiveObjectsPreferencesK
     let minPossibleDimension: CGFloat = 20
     let maxPossibleDimension: CGFloat = 120
 
-    func getRandomDimension() -> CGFloat {
-        CGFloat.random(in: minDimension ..< maxDimension)
+    var isRandomizationEnabled: CurrentValueSubject<Bool, Never> = .init(true)
+
+    func getDimension() -> CGFloat {
+        let roundedMin = minDimension.rounded()
+        let roundedMax = maxDimension.rounded()
+
+        guard roundedMin != roundedMax else {
+            return roundedMax
+        }
+
+        let dimension = CGFloat.random(in: roundedMin ..< roundedMax)
+        return dimension
     }
 
-    func getRandomColor() -> UIColor {
+    func getColor() -> UIColor {
         colors.randomElement() ?? .systemBlue
     }
 }
