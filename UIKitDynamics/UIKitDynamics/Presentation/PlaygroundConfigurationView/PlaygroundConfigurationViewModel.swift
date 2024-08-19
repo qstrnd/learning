@@ -16,6 +16,7 @@ extension PlaygroundConfigurationView {
     enum ContentItem: String, Identifiable {
         case clearInteractiveObjectsButton
         case randomizeObjectsStyleSwitch
+        case randomizedColorCollection
         case minMaxInteractiveObjectDimensionSlider
 
         var id: String {
@@ -32,6 +33,7 @@ extension PlaygroundConfigurationView {
 
         private let didTapClearInteractiveObjectsButton = PassthroughSubject<Void, Never>()
         private let didUpdateMinMaxObjectDimensions = PassthroughSubject<(CGFloat, CGFloat), Never>()
+        private let selectedRandomColors: CurrentValueSubject<Set<ColorSelectionConfiguration.ColorItem>, Never>
 
         private var cancellables: Set<AnyCancellable> = []
 
@@ -41,6 +43,11 @@ extension PlaygroundConfigurationView {
         ) {
             self.interactiveObjectsService = interactiveObjectsService
             self.interactivePreferencesService = interactivePreferencesService
+
+            let initialColorItems = interactivePreferencesService.possibleColors.map {
+                ColorSelectionConfiguration.ColorItem(color: $0)
+            }
+            self.selectedRandomColors = .init(Set(initialColorItems))
 
             setupBindings()
         }
@@ -72,6 +79,13 @@ extension PlaygroundConfigurationView {
                     self.updateMinMaxDimensions(min: min, max: max)
                 }
                 .store(in: &cancellables)
+
+            selectedRandomColors
+                .removeDuplicates()
+                .sink { [unowned self] updatedColors in
+                    self.interactivePreferencesService.colors = Array(updatedColors.map { $0.color })
+                }
+                .store(in: &cancellables)
         }
 
         private func buildContentItems(
@@ -83,6 +97,7 @@ extension PlaygroundConfigurationView {
             items.append(.randomizeObjectsStyleSwitch)
             if isRandomizedObjectStyleEnabled {
                 items.append(.minMaxInteractiveObjectDimensionSlider)
+                items.append(.randomizedColorCollection)
             }
 
             if !isObjectCountEmpty {
@@ -97,7 +112,9 @@ extension PlaygroundConfigurationView {
             case .clearInteractiveObjectsButton:
                 return configurationForClearInteractiveObjectsButton()
             case .randomizeObjectsStyleSwitch:
-                return configurationForRandomizeObjectsStyleSwitch(for: cell)
+                return configurationForRandomizedObjectsStyleSwitch(for: cell)
+            case .randomizedColorCollection:
+                return configurationForRandomizedColorSelector(for: cell)
             case .minMaxInteractiveObjectDimensionSlider:
                 return configurationForMinMaxInteractiveObjectDimensionSlider(for: cell)
             }
@@ -124,7 +141,7 @@ extension PlaygroundConfigurationView {
             return buttonConfiguration
         }
 
-        private func configurationForRandomizeObjectsStyleSwitch(for cell: UICollectionViewListCell) -> UIContentConfiguration {
+        private func configurationForRandomizedObjectsStyleSwitch(for cell: UICollectionViewListCell) -> UIContentConfiguration {
             var cellConfiguration = cell.defaultContentConfiguration()
             cellConfiguration.text = "Randomize objects style"
 
@@ -147,6 +164,15 @@ extension PlaygroundConfigurationView {
             return cellConfiguration
         }
 
+        private func configurationForRandomizedColorSelector(for cell: UICollectionViewListCell) -> UIContentConfiguration {
+            let content = ColorSelectionConfiguration(
+                items: interactivePreferencesService.possibleColors.map { .init(color: $0) },
+                selectedItems: selectedRandomColors
+            )
+
+            return content
+        }
+
         private func configurationForMinMaxInteractiveObjectDimensionSlider(for cell: UICollectionViewListCell) -> UIContentConfiguration {
             let content = RangeSliderCellConfiguration(
                 title: "Dimensions",
@@ -158,6 +184,29 @@ extension PlaygroundConfigurationView {
             )
 
             return content
+        }
+
+        private func configurationForRandomizeObjectsStyle(for cell: UICollectionViewListCell) -> UIContentConfiguration {
+            var cellConfiguration = cell.defaultContentConfiguration()
+            cellConfiguration.text = "Randomize objects style"
+
+            let switchView = UISwitch(frame: .zero, primaryAction: .init(handler: { action in
+                guard let senderSwitch = action.sender as? UISwitch else { return }
+                self.updateRandomizeObjectsStyleEnabled(to: senderSwitch.isOn)
+            }))
+
+            switchView.isOn = interactivePreferencesService.isRandomizationEnabled.value
+
+            cell.accessories = [
+                .customView(
+                    configuration: .init(
+                        customView: switchView,
+                        placement: .trailing(displayed: .always)
+                    )
+                )
+            ]
+
+            return cellConfiguration
         }
 
         private func updateMinMaxDimensions(min: CGFloat, max: CGFloat) {

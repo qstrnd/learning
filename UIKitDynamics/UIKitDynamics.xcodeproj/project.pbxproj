@@ -15,6 +15,9 @@
 		A12F35102C642F3900758AA1 /* RangeSeekSliderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12F350F2C642F3900758AA1 /* RangeSeekSliderDelegate.swift */; };
 		A12F35122C642F4500758AA1 /* RangeSeekSlider.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12F35112C642F4500758AA1 /* RangeSeekSlider.swift */; };
 		A12F35142C642F9000758AA1 /* RangeSliderCellConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A12F35132C642F9000758AA1 /* RangeSliderCellConfiguration.swift */; };
+		A14A92DF2C73BEAB001634CA /* ColorSelectionContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14A92DE2C73BEAB001634CA /* ColorSelectionContentView.swift */; };
+		A14A92E32C73CD98001634CA /* ColorSelectionConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14A92E22C73CD98001634CA /* ColorSelectionConfiguration.swift */; };
+		A14A92E52C73CE10001634CA /* ColorItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14A92E42C73CE10001634CA /* ColorItemCell.swift */; };
 		A14B8A832C6290020069D760 /* PlaygroundConfigurationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B8A822C6290020069D760 /* PlaygroundConfigurationView.swift */; };
 		A14B8A862C6292550069D760 /* PlaygroundConfigurationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B8A852C6292550069D760 /* PlaygroundConfigurationViewModel.swift */; };
 		A14B8A8B2C62ADE80069D760 /* MainViewController+LayoutManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A14B8A8A2C62ADE80069D760 /* MainViewController+LayoutManager.swift */; };
@@ -40,6 +43,9 @@
 		A12F350F2C642F3900758AA1 /* RangeSeekSliderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSeekSliderDelegate.swift; sourceTree = "<group>"; };
 		A12F35112C642F4500758AA1 /* RangeSeekSlider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSeekSlider.swift; sourceTree = "<group>"; };
 		A12F35132C642F9000758AA1 /* RangeSliderCellConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RangeSliderCellConfiguration.swift; sourceTree = "<group>"; };
+		A14A92DE2C73BEAB001634CA /* ColorSelectionContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectionContentView.swift; sourceTree = "<group>"; };
+		A14A92E22C73CD98001634CA /* ColorSelectionConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorSelectionConfiguration.swift; sourceTree = "<group>"; };
+		A14A92E42C73CE10001634CA /* ColorItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorItemCell.swift; sourceTree = "<group>"; };
 		A14B8A822C6290020069D760 /* PlaygroundConfigurationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundConfigurationView.swift; sourceTree = "<group>"; };
 		A14B8A852C6292550069D760 /* PlaygroundConfigurationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaygroundConfigurationViewModel.swift; sourceTree = "<group>"; };
 		A14B8A8A2C62ADE80069D760 /* MainViewController+LayoutManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+LayoutManager.swift"; sourceTree = "<group>"; };
@@ -131,6 +137,7 @@
 			children = (
 				A12F350C2C642F0200758AA1 /* RangeSliderCollectionCell */,
 				A12F35022C63F04A00758AA1 /* ButtonCellConfiguration.swift */,
+				A14A92E02C73CD6F001634CA /* ColorSelection */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -144,6 +151,16 @@
 				A12F35112C642F4500758AA1 /* RangeSeekSlider.swift */,
 			);
 			path = RangeSliderCollectionCell;
+			sourceTree = "<group>";
+		};
+		A14A92E02C73CD6F001634CA /* ColorSelection */ = {
+			isa = PBXGroup;
+			children = (
+				A14A92DE2C73BEAB001634CA /* ColorSelectionContentView.swift */,
+				A14A92E22C73CD98001634CA /* ColorSelectionConfiguration.swift */,
+				A14A92E42C73CE10001634CA /* ColorItemCell.swift */,
+			);
+			path = ColorSelection;
 			sourceTree = "<group>";
 		};
 		A14B8A842C6292410069D760 /* PlaygroundConfigurationView */ = {
@@ -279,12 +296,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				A14B8A832C6290020069D760 /* PlaygroundConfigurationView.swift in Sources */,
+				A14A92E32C73CD98001634CA /* ColorSelectionConfiguration.swift in Sources */,
 				A12F35142C642F9000758AA1 /* RangeSliderCellConfiguration.swift in Sources */,
 				A19DCE442C638FF300F51EE0 /* ViewEffect.swift in Sources */,
 				A19521A22C51799500113137 /* Constants+UI.swift in Sources */,
 				A14B8A8B2C62ADE80069D760 /* MainViewController+LayoutManager.swift in Sources */,
 				A19DCE462C63903900F51EE0 /* RippleEffect.swift in Sources */,
 				A12F35092C641C8100758AA1 /* PlaygroundViewModel.swift in Sources */,
+				A14A92E52C73CE10001634CA /* ColorItemCell.swift in Sources */,
 				A19DCE482C639C1A00F51EE0 /* HapticFeedbackGenerator.swift in Sources */,
 				A1AFE6C72C502313005BFE6A /* MainViewController.swift in Sources */,
 				A12F350B2C6424BE00758AA1 /* InteractiveObjectsPreferences.swift in Sources */,
@@ -297,6 +316,7 @@
 				A12F35072C64131100758AA1 /* InteractiveObjectsManager.swift in Sources */,
 				A1AFE6C52C502313005BFE6A /* SceneDelegate.swift in Sources */,
 				A19521A02C51763E00113137 /* PlaygroundView.swift in Sources */,
+				A14A92DF2C73BEAB001634CA /* ColorSelectionContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

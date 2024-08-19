@@ -13,6 +13,7 @@ protocol InteractiveObjectsPreferencesKeeping: AnyObject {
     var minDimension: CGFloat { get set }
     var maxDimension: CGFloat { get set }
     var colors: [UIColor] { get set }
+    var possibleColors: [UIColor] { get set }
     var minPossibleDimension: CGFloat { get }
     var maxPossibleDimension: CGFloat { get }
 }
@@ -25,14 +26,24 @@ protocol InteractiveObjectsPreferencesProvider {
 final class InteractiveObjectsPreferencesManager: InteractiveObjectsPreferencesKeeping, InteractiveObjectsPreferencesProvider {
     lazy var minDimension: CGFloat = minPossibleDimension
     lazy var maxDimension: CGFloat = maxPossibleDimension
-    var colors: [UIColor] =  [UIColor.systemRed, UIColor.systemBlue, UIColor.systemGreen, UIColor.systemMint]
+
+    var possibleColors: [UIColor] = [.systemRed, .systemOrange, .systemYellow, .systemGreen, .systemMint, .systemCyan, .systemBlue, .systemPurple]
+    var colors: [UIColor]
 
     let minPossibleDimension: CGFloat = 20
     let maxPossibleDimension: CGFloat = 120
 
     var isRandomizationEnabled: CurrentValueSubject<Bool, Never> = .init(true)
 
+    init() {
+        colors = possibleColors
+    }
+
     func getDimension() -> CGFloat {
+        guard isRandomizationEnabled.value else {
+            return 64
+        }
+
         let roundedMin = minDimension.rounded()
         let roundedMax = maxDimension.rounded()
 
@@ -45,6 +56,11 @@ final class InteractiveObjectsPreferencesManager: InteractiveObjectsPreferencesK
     }
 
     func getColor() -> UIColor {
-        colors.randomElement() ?? .systemBlue
+        guard isRandomizationEnabled.value else {
+            return .systemGray
+        }
+
+        return colors.randomElement() ?? .systemBlue
     }
+
 }
