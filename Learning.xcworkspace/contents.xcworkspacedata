@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
+   <Group
+      location = "group:LeetCode"
+      name = "LeetCode">
+      <FileRef
+         location = "group:Queue.playground">
+      </FileRef>
+   </Group>
    <FileRef
       location = "group:UIKitDynamics/UIKitDynamics.xcodeproj">
    </FileRef>
