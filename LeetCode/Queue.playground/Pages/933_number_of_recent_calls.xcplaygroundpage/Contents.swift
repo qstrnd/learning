@@ -1,14 +1,12 @@
-//: [Previous](@previous)
-
 /*:
- [LeetCode Problem](https://leetcode.com/problems/number-of-recent-calls/description/)
+ [933. Number of recent calls](https://leetcode.com/problems/number-of-recent-calls/description/)
  
  #### Solution
  
- Use a queue to track ping time in sequential order and store the count of queued elements. When ping happens, go through the queue, dequeueing the elements until the first encounter of the element that meets the condition [t - 3000, t].
+ Use a queue to track ping time in sequential order and store the count of queued elements. When ping happens, go through the queue, dequeueing the elements until the first encounter of the element that meets the condition _[t - 3000, t]_.
  
- **Time Complexity**: O(1) amortized per ping call.
- **Space Complexity**: O(1) (bounded by 3000 elements) in a queue.
+ **Time Complexity**: _O(1)_ amortized per ping call.
+ **Space Complexity**: _O(1)_ (bounded by 3000 elements) in a queue.
  
  */
 
@@ -119,4 +117,4 @@ func testSolution() {
 
 testSolution()
 
-//: [Next](@next)
+//: [Previous](@previous) || [Next](@next)

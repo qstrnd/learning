@@ -1,5 +1,5 @@
 /*:
- [LeetCode Problem](https://leetcode.com/problems/implement-stack-using-queues/)
+ [387. First unique character in a string](https://leetcode.com/problems/first-unique-character-in-a-string/description/)
  
  #### Solution
 
@@ -79,3 +79,5 @@ func testSolution() {
 }
 
 testSolution()
+
+//: [Previous](@previous) || [Next](@next)

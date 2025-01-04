@@ -1,4 +1,17 @@
-// Task: https://leetcode.com/problems/implement-stack-using-queues/
+/*:
+ [225. Implement stack using queues](https://leetcode.com/problems/implement-stack-using-queues/)
+ 
+ #### Solution
+
+ Use two queues and transfer elements on pop and top to maintain the stack order.
+ 
+ **Time Complexity**:
+ - Push: _O(1)_
+ - Pop: _O(n)_
+ - Top: _O(n)_
+ - Empty: _O(1)_
+ 
+ */
 
 import Foundation
 
@@ -111,3 +124,5 @@ func testStackOperations() {
 }
 
 testStackOperations()
+
+//: [Previous](@previous) || [Next](@next)
