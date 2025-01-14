@@ -5,6 +5,9 @@
       location = "group:LeetCode"
       name = "LeetCode">
       <FileRef
+         location = "group:Tree.playground">
+      </FileRef>
+      <FileRef
          location = "group:String.playground">
       </FileRef>
       <FileRef
