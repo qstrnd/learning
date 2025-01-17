@@ -91,7 +91,7 @@ func testSolution() {
         test1Result == [4,2,6,5,7,1,3,9,8],
         "Incorrectly constructed BST"
     )
-    print("Test the passed!")
+    print("Test passed!")
 }
 
 testSolution()

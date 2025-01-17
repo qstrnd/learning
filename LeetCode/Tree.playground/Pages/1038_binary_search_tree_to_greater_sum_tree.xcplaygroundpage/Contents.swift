@@ -101,7 +101,7 @@ func testSolution() {
         test1Result == [Optional(30),Optional(36),Optional(21),Optional(36),Optional(35),Optional(26),Optional(15),nil,nil,nil,Optional(33),nil,nil,nil,Optional(8)],
         "Incorrectly constructed BST"
     )
-    print("Test the passed!")
+    print("Test passed!")
 }
 
 testSolution()
