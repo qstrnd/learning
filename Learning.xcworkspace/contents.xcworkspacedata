@@ -5,6 +5,9 @@
       location = "group:LeetCode"
       name = "LeetCode">
       <FileRef
+         location = "group:Other.playground">
+      </FileRef>
+      <FileRef
          location = "group:HashTable.playground">
       </FileRef>
       <FileRef
