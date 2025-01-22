@@ -5,6 +5,8 @@
  #### Solution
  
  Simply put, check recursively the left node, the parent, and the right node. [More on Geeks for Geeks](https://www.geeksforgeeks.org/tree-traversals-inorder-preorder-and-postorder/?ref=gcse_outind#inorder-traversal)
+ 
+ Can be solved using a recursion or a loop.
   
  **Time complexity**: _O(n)_, where n is the number of elements in the tree
  **Space complexity**: _O(n)_, where n is the number of elements in the tree
@@ -52,7 +54,11 @@ final class TreeNode {
     }
 }
 
-final class Solution {
+protocol Solution {
+    func inorderTraversal(_ root: TreeNode?) -> [Int]
+}
+
+final class Solution_Recursive: Solution {
     func inorderTraversal(_ root: TreeNode?) -> [Int] {
         var result: [Int] = []
         traverse(root, result: &result)
@@ -67,15 +73,35 @@ final class Solution {
     }
 }
 
+final class Solution_Loop: Solution {
+    func inorderTraversal(_ root: TreeNode?) -> [Int] {
+        var stack: [TreeNode] = []
+        var result: [Int] = []
+        var current = root
+        
+        while current != nil || !stack.isEmpty {
+            while let c = current {
+                stack.append(c)
+                current = c.left
+            }
+            
+            let c = stack.removeLast()
+            result.append(c.val)
+            
+            current = c.right
+        }
+        
+        return result
+    }
+}
+
 // MARK: - Tests
 
 /*:
  ![Testcase](94_testcase.png)
 */
 
-func testSolution() {
-    let solution = Solution()
-    
+func testSolution(_ solution: Solution) {
     var root = TreeNode(1)
     root.left = TreeNode(2)
     root.left?.left = TreeNode(4)
@@ -94,7 +120,8 @@ func testSolution() {
     print("Test passed!")
 }
 
-testSolution()
+testSolution(Solution_Recursive())
+testSolution(Solution_Loop())
 
 
 //: [Previous](@previous) || [Next](@next)
