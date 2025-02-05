@@ -27,6 +27,9 @@
       </FileRef>
    </Group>
    <FileRef
+      location = "group:SyncUps/SyncUps.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:ParticleEmitter/ParticleEmitter.xcodeproj">
    </FileRef>
    <FileRef

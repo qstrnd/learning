@@ -52,7 +52,7 @@ final class TreeNode {
 }
 
 final class Solution {
-    private func height(_ root: TreeNode?) -> Int {
+    func height(_ root: TreeNode?) -> Int {
         return root == nil ? -1 : 1 + height(root?.left)
     }
 
