@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Get list of modified Swift files
+modified_files=$(git diff --cached --name-only --diff-filter=ACM | grep '\.swift$')
+
+# Exit if no Swift files are modified
+if [[ -z "$modified_files" ]]; then
+    exit 0
+fi
+
+echo "Running swift-format on modified files..."
+
+# Run swift-format on each modified file
+for file in $modified_files; do
+    swiftformat "$file"
+    git add "$file"  # Re-add formatted file to staging
+done
+
+echo "Swift formatting applied and files re-staged."
+
+exit 0
