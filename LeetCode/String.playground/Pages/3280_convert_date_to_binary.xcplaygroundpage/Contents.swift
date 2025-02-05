@@ -1,18 +1,4 @@
-/*:
- [3280. Convert Date to Binary](https://leetcode.com/problems/convert-date-to-binary/description/)
- 
- #### Solution
-
- 1. Extract the numbers.
- 2. Convert each number to its binary representation. In the decimal system, numbers are represented as decimal fractions, while in the binary system, they are represented as fractions in base 2.
- 3. Combine the results into the required form.
- 
- Time complexity is an amortized constant due to fixed input size:
- 
- - **Time Complexity**: _O(1)_
- - **Space Complexity**: _O(1)_
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -25,7 +11,7 @@ final class Solution {
             "-",
             buildBinary(from: components[1]),
             "-",
-            buildBinary(from: components[2])
+            buildBinary(from: components[2]),
         ].reduce("", +)
     }
 
@@ -34,13 +20,13 @@ final class Solution {
         var val = intValue
         var carry = 0
         var i = 1
-        
+
         while val > 0 {
             let digit = String(val % 2)
             reversedBinary.append(digit)
             val /= 2
         }
-        
+
         return String(reversedBinary.reversed())
     }
 }
@@ -49,10 +35,10 @@ final class Solution {
 
 func testSolution() {
     let solution = Solution()
-    
+
     assert(Solution().convertDateToBinary("2080-02-29") == "100000100000-10-11101", "Test failed: convertDateToBinary(\"2080-02-29\") == \"100000100000-10-11101\"")
     print("Test passed: convertDateToBinary(\"2080-02-29\") == \"100000100000-10-11101\"")
-    
+
     assert(solution.convertDateToBinary("1900-01-01") == "11101101100-1-1", "Test failed: convertDateToBinary(\"1900-01-01\") == \"11101101100-1-1\"")
     print("Test passed: convertDateToBinary(\"1900-01-01\") == \"11101101100-1-1\"")
 }

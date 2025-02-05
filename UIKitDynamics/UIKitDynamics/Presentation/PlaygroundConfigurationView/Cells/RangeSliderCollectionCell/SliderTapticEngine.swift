@@ -1,24 +1,15 @@
-//
-//  TapticEngine.swift
-//  RangeSeekSlider
-//
-//  Created by Keisuke Shoji on 2017/04/09.
-//
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import UIKit
 
 /// Generates iOS Device vibrations by UIFeedbackGenerator.
 open class SliderTapticEngine {
-
-    public static let impact: Impact = Impact()
-    public static let selection: Selection = Selection()
-    public static let notification: Notification = Notification()
-
+    public static let impact = Impact()
+    public static let selection = Selection()
+    public static let notification = Notification()
 
     /// Wrapper of `UIImpactFeedbackGenerator`
     open class Impact {
-
         /// Impact feedback styles
         ///
         /// - light: A impact feedback between small, light user interface elements.
@@ -28,22 +19,21 @@ open class SliderTapticEngine {
             case light, medium, heavy
         }
 
-        private var style: ImpactStyle = .light
+        private var style = ImpactStyle.light
         private var generator: Any? = Impact.makeGenerator(.light)
 
         private static func makeGenerator(_ style: ImpactStyle) -> Any? {
             guard #available(iOS 10.0, *) else { return nil }
 
-            let feedbackStyle: UIImpactFeedbackGenerator.FeedbackStyle
-            switch style {
+            let feedbackStyle: UIImpactFeedbackGenerator.FeedbackStyle = switch style {
             case .light:
-                feedbackStyle = .light
+                .light
             case .medium:
-                feedbackStyle = .medium
+                .medium
             case .heavy:
-                feedbackStyle = .heavy
+                .heavy
             }
-            let generator: UIImpactFeedbackGenerator = UIImpactFeedbackGenerator(style: feedbackStyle)
+            let generator = UIImpactFeedbackGenerator(style: feedbackStyle)
             generator.prepare()
             return generator
         }
@@ -76,14 +66,12 @@ open class SliderTapticEngine {
         }
     }
 
-
     /// Wrapper of `UISelectionFeedbackGenerator`
     open class Selection {
-
         private var generator: Any? = {
             guard #available(iOS 10.0, *) else { return nil }
 
-            let generator: UISelectionFeedbackGenerator = UISelectionFeedbackGenerator()
+            let generator = UISelectionFeedbackGenerator()
             generator.prepare()
             return generator
         }()
@@ -104,10 +92,8 @@ open class SliderTapticEngine {
         }
     }
 
-
     /// Wrapper of `UINotificationFeedbackGenerator`
     open class Notification {
-
         /// Notification feedback types
         ///
         /// - success: A notification feedback, indicating that a task has completed successfully.
@@ -120,7 +106,7 @@ open class SliderTapticEngine {
         private var generator: Any? = {
             guard #available(iOS 10.0, *) else { return nil }
 
-            let generator: UINotificationFeedbackGenerator = UINotificationFeedbackGenerator()
+            let generator = UINotificationFeedbackGenerator()
             generator.prepare()
             return generator
         }()
@@ -129,14 +115,13 @@ open class SliderTapticEngine {
             guard #available(iOS 10.0, *) else { return }
             guard let generator = generator as? UINotificationFeedbackGenerator else { return }
 
-            let feedbackType: UINotificationFeedbackGenerator.FeedbackType
-            switch type {
+            let feedbackType: UINotificationFeedbackGenerator.FeedbackType = switch type {
             case .success:
-                feedbackType = .success
+                .success
             case .warning:
-                feedbackType = .warning
+                .warning
             case .error:
-                feedbackType = .error
+                .error
             }
             generator.notificationOccurred(feedbackType)
             generator.prepare()

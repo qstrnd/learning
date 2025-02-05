@@ -1,9 +1,4 @@
-/*:
- [1470. Shuffle the Array](https://leetcode.com/problems/shuffle-the-array/description/)
- 
- #### Solution
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -68,19 +63,18 @@ final class Solution {
 
 func testSolution() {
     let solution = Solution_MemoryOptimized()
-    
-    var arr = [2,5,1,3,4,7]
+
+    var arr = [2, 5, 1, 3, 4, 7]
     solution.shuffle(&arr, 3)
-    assert(arr == [2,3,5,4,1,7], "Test failed: shuffle([2,5,1,3,4,7], 3) == [2,3,5,4,1,7]")
+    assert(arr == [2, 3, 5, 4, 1, 7], "Test failed: shuffle([2,5,1,3,4,7], 3) == [2,3,5,4,1,7]")
     print("Test passed: shuffle([2,5,1,3,4,7], 3) == [2,3,5,4,1,7]")
-    
-    arr = [1,2,3,4,4,3,2,1]
+
+    arr = [1, 2, 3, 4, 4, 3, 2, 1]
     solution.shuffle(&arr, 4)
-    assert(arr == [1,4,2,3,3,2,4,1], "Test failed: shuffle([1,2,3,4,4,3,2,1], 4) == [1,4,2,3,3,2,4,1]")
+    assert(arr == [1, 4, 2, 3, 3, 2, 4, 1], "Test failed: shuffle([1,2,3,4,4,3,2,1], 4) == [1,4,2,3,3,2,4,1]")
     print("Test passed: shuffle([1,2,3,4,4,3,2,1], 4) == [1,4,2,3,3,2,4,1]")
 }
 
 testSolution()
-
 
 //: [Previous](@previous) || [Next](@next)

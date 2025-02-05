@@ -1,14 +1,4 @@
-/*:
- [1. Two Sum](https://leetcode.com/problems/two-sum/description/)
- 
- #### Solution
- 
- Use a hash map to track the indices of possible pair matches
- 
- **Time complexity**: _O(n)_, where n is the length of the array
- **Space complexity**: _O(n)_, where n is the length of the array
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -35,10 +25,10 @@ final class Solution {
 func testSolution() {
     let solution = Solution()
 
-    assert(solution.twoSum([2,7,11,15], 9) == [0, 1], "Test failed: twoSum([2,7,11,15], 9) == [0, 1]")
+    assert(solution.twoSum([2, 7, 11, 15], 9) == [0, 1], "Test failed: twoSum([2,7,11,15], 9) == [0, 1]")
     print("Test passed: twoSum([2,7,11,15], 9) == [0, 1]")
-    
-    assert(solution.twoSum([3,2,4], 6) == [1, 2], "Test failed: twoSum([3,2,4], 6) == [1, 2]")
+
+    assert(solution.twoSum([3, 2, 4], 6) == [1, 2], "Test failed: twoSum([3,2,4], 6) == [1, 2]")
     print("Test passed: twoSum([3,2,4], 6) == [1, 2]")
 }
 

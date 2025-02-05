@@ -1,14 +1,4 @@
-/*:
- [322. Coin Change](https://leetcode.com/problems/coin-change/description/)
- 
- #### Solution
- 
- Use a dynamic programming approach. Solve the problem for all numbers from 0 to n, reusing the solutions for numbers that repeat after subtracting a coin from the current amount.
- 
- **Time complexity**: _O(n)_, where n is the amount
- **Space complexity**: _O(n)_
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -37,10 +27,10 @@ final class Solution {
 
 func testSolution() {
     let solution = Solution()
-    
-    assert(solution.coinChange([1,2,5], 11) == 3, "Test failed: coinChange([1,2,5], 11) == 3")
+
+    assert(solution.coinChange([1, 2, 5], 11) == 3, "Test failed: coinChange([1,2,5], 11) == 3")
     print("Test passed: coinChange([1,2,5], 11) == 3")
-    
+
     assert(solution.coinChange([2], 3) == -1, "Test failed: coinChange([2], 3) == -1")
     print("Test passed: coinChange([2], 3) == -1")
 }

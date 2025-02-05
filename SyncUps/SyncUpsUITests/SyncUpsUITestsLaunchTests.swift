@@ -1,14 +1,8 @@
-//
-//  SyncUpsUITestsLaunchTests.swift
-//  SyncUpsUITests
-//
-//  Created by Andy on 2/5/25.
-//
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import XCTest
 
 final class SyncUpsUITestsLaunchTests: XCTestCase {
-
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }

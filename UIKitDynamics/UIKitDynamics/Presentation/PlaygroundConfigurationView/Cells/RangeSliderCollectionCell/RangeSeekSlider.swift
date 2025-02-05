@@ -1,15 +1,8 @@
-//
-//  RangeSeekSlider.swift
-//  RangeSeekSlider
-//
-//  Created by Keisuke Shoji on 2017/03/09.
-//
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import UIKit
 
 @IBDesignable open class RangeSeekSlider: UIControl {
-
     // MARK: - initializers
 
     public required init?(coder aDecoder: NSCoder) {
@@ -18,7 +11,7 @@ import UIKit
         setup()
     }
 
-    public required override init(frame: CGRect) {
+    override public required init(frame: CGRect) {
         super.init(frame: frame)
 
         setup()
@@ -28,7 +21,6 @@ import UIKit
         self.init(frame: frame)
         completion?(self)
     }
-
 
     // MARK: - open stored properties
 
@@ -69,7 +61,7 @@ import UIKit
     }
 
     /// The font of the minimum value text label. If not set, the default is system font size 12.0.
-    open var minLabelFont: UIFont = UIFont.systemFont(ofSize: 12.0) {
+    open var minLabelFont = UIFont.systemFont(ofSize: 12.0) {
         didSet {
             minLabel.font = minLabelFont as CFTypeRef
             minLabel.fontSize = minLabelFont.pointSize
@@ -77,7 +69,7 @@ import UIKit
     }
 
     /// The font of the maximum value text label. If not set, the default is system font size 12.0.
-    open var maxLabelFont: UIFont = UIFont.systemFont(ofSize: 12.0) {
+    open var maxLabelFont = UIFont.systemFont(ofSize: 12.0) {
         didSet {
             maxLabel.font = maxLabelFont as CFTypeRef
             maxLabel.fontSize = maxLabelFont.pointSize
@@ -87,14 +79,14 @@ import UIKit
     /// Each handle in the slider has a label above it showing the current selected value. By default, this is displayed as a decimal format.
     /// You can update this default here by updating properties of NumberFormatter. For example, you could supply a currency style, or a prefix or suffix.
     open var numberFormatter: NumberFormatter = {
-        let formatter: NumberFormatter = NumberFormatter()
+        let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = 0
         return formatter
     }()
 
     /// Hides the labels above the slider controls. true = labels will be hidden. false = labels will be shown. Default is false.
-    @IBInspectable open var hideLabels: Bool = false {
+    @IBInspectable open var hideLabels = false {
         didSet {
             minLabel.isHidden = hideLabels
             maxLabel.isHidden = hideLabels
@@ -102,7 +94,7 @@ import UIKit
     }
 
     /// fixes the labels above the slider controls. true: labels will be fixed to both ends. false: labels will move with the handles. Default is false.
-    @IBInspectable open var labelsFixed: Bool = false
+    @IBInspectable open var labelsFixed = false
 
     /// The minimum distance the two selected slider values must be apart. Default is 0.
     @IBInspectable open var minDistance: CGFloat = 0.0 {
@@ -114,7 +106,7 @@ import UIKit
     }
 
     /// The maximum distance the two selected slider values must be apart. Default is CGFloat.greatestFiniteMagnitude.
-    @IBInspectable open var maxDistance: CGFloat = .greatestFiniteMagnitude {
+    @IBInspectable open var maxDistance = CGFloat.greatestFiniteMagnitude {
         didSet {
             if maxDistance < 0.0 {
                 maxDistance = .greatestFiniteMagnitude
@@ -142,7 +134,7 @@ import UIKit
 
     /// If true, the control will mimic a normal slider and have only one handle rather than a range.
     /// In this case, the selectedMinValue will be not functional anymore. Use selectedMaxValue instead to determine the value the user has selected.
-    @IBInspectable open var disableRange: Bool = false {
+    @IBInspectable open var disableRange = false {
         didSet {
             leftHandle.isHidden = disableRange
             minLabel.isHidden = disableRange
@@ -150,7 +142,7 @@ import UIKit
     }
 
     /// If true the control will snap to point at each step between minValue and maxValue. Default is false.
-    @IBInspectable open var enableStep: Bool = false
+    @IBInspectable open var enableStep = false
 
     /// The step value, this control the value of each step. If not set the default is 0.0.
     /// (note: this is ignored if <= 0.0)
@@ -221,23 +213,22 @@ import UIKit
     /// The brief description displayed in accessibility mode for maximum value handler. If not set, the default is empty String.
     @IBInspectable open var maxLabelAccessibilityHint: String?
 
-
     // MARK: - private stored properties
 
     private enum HandleTracking { case none, left, right }
-    private var handleTracking: HandleTracking = .none
+    private var handleTracking = HandleTracking.none
 
-    private let sliderLine: CALayer = CALayer()
-    private let sliderLineBetweenHandles: CALayer = CALayer()
+    private let sliderLine = CALayer()
+    private let sliderLineBetweenHandles = CALayer()
 
-    private let leftHandle: CALayer = CALayer()
-    private let rightHandle: CALayer = CALayer()
+    private let leftHandle = CALayer()
+    private let rightHandle = CALayer()
 
-    fileprivate let minLabel: CATextLayer = CATextLayer()
-    fileprivate let maxLabel: CATextLayer = CATextLayer()
+    fileprivate let minLabel = CATextLayer()
+    fileprivate let maxLabel = CATextLayer()
 
-    private var minLabelTextSize: CGSize = .zero
-    private var maxLabelTextSize: CGSize = .zero
+    private var minLabelTextSize = CGSize.zero
+    private var maxLabelTextSize = CGSize.zero
 
     // UIFeedbackGenerator
     private var previousStepMinValue: CGFloat?
@@ -247,11 +238,10 @@ import UIKit
     // see http://stackoverflow.com/questions/13462046/custom-uiview-not-showing-accessibility-on-voice-over
     private var accessibleElements: [UIAccessibilityElement] = []
 
-
     // MARK: - private computed properties
 
     private var leftHandleAccessibilityElement: UIAccessibilityElement {
-        let element: RangeSeekSliderLeftElement = RangeSeekSliderLeftElement(accessibilityContainer: self)
+        let element = RangeSeekSliderLeftElement(accessibilityContainer: self)
         element.isAccessibilityElement = true
         element.accessibilityLabel = minLabelAccessibilityLabel
         element.accessibilityHint = minLabelAccessibilityHint
@@ -262,7 +252,7 @@ import UIKit
     }
 
     private var rightHandleAccessibilityElement: UIAccessibilityElement {
-        let element: RangeSeekSliderRightElement = RangeSeekSliderRightElement(accessibilityContainer: self)
+        let element = RangeSeekSliderRightElement(accessibilityContainer: self)
         element.isAccessibilityElement = true
         element.accessibilityLabel = maxLabelAccessibilityLabel
         element.accessibilityHint = maxLabelAccessibilityHint
@@ -272,10 +262,9 @@ import UIKit
         return element
     }
 
-
     // MARK: - UIView
 
-    open override func layoutSubviews() {
+    override open func layoutSubviews() {
         super.layoutSubviews()
 
         if handleTracking == .none {
@@ -287,14 +276,13 @@ import UIKit
         }
     }
 
-    open override var intrinsicContentSize: CGSize {
-        return CGSize(width: UIView.noIntrinsicMetric, height: 65.0)
+    override open var intrinsicContentSize: CGSize {
+        CGSize(width: UIView.noIntrinsicMetric, height: 65.0)
     }
-
 
     // MARK: - UIControl
 
-    open override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+    override open func beginTracking(_ touch: UITouch, with _: UIEvent?) -> Bool {
         let touchLocation: CGPoint = touch.location(in: self)
         let insetExpansion: CGFloat = -30.0
         let isTouchingLeftHandle: Bool = leftHandle.frame.insetBy(dx: insetExpansion, dy: insetExpansion).contains(touchLocation)
@@ -302,14 +290,13 @@ import UIKit
 
         guard isTouchingLeftHandle || isTouchingRightHandle else { return false }
 
-
         // the touch was inside one of the handles so we're definitely going to start movign one of them. But the handles might be quite close to each other, so now we need to find out which handle the touch was closest too, and activate that one.
         let distanceFromLeftHandle: CGFloat = touchLocation.distance(to: leftHandle.frame.center)
         let distanceFromRightHandle: CGFloat = touchLocation.distance(to: rightHandle.frame.center)
 
-        if distanceFromLeftHandle < distanceFromRightHandle && !disableRange {
+        if distanceFromLeftHandle < distanceFromRightHandle, !disableRange {
             handleTracking = .left
-        } else if selectedMaxValue == maxValue && leftHandle.frame.midX == rightHandle.frame.midX {
+        } else if selectedMaxValue == maxValue, leftHandle.frame.midX == rightHandle.frame.midX {
             handleTracking = .left
         } else {
             handleTracking = .right
@@ -322,7 +309,7 @@ import UIKit
         return true
     }
 
-    open override func continueTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
+    override open func continueTracking(_ touch: UITouch, with _: UIEvent?) -> Bool {
         guard handleTracking != .none else { return false }
 
         let location: CGPoint = touch.location(in: self)
@@ -338,7 +325,7 @@ import UIKit
             selectedMinValue = min(selectedValue, selectedMaxValue)
         case .right:
             // don't let the dots cross over, (unless range is disabled, in which case just dont let the dot fall off the end of the screen)
-            if disableRange && selectedValue >= minValue {
+            if disableRange, selectedValue >= minValue {
                 selectedMaxValue = selectedValue
             } else {
                 selectedMaxValue = max(selectedValue, selectedMinValue)
@@ -353,7 +340,7 @@ import UIKit
         return true
     }
 
-    open override func endTracking(_ touch: UITouch?, with event: UIEvent?) {
+    override open func endTracking(_: UITouch?, with _: UIEvent?) {
         let handle: CALayer = (handleTracking == .left) ? leftHandle : rightHandle
         animate(handle: handle, selected: false)
         handleTracking = .none
@@ -361,28 +348,25 @@ import UIKit
         delegate?.didEndTouches(in: self)
     }
 
-
     // MARK: - UIAccessibility
 
-    open override func accessibilityElementCount() -> Int {
-        return accessibleElements.count
+    override open func accessibilityElementCount() -> Int {
+        accessibleElements.count
     }
 
-    open override func accessibilityElement(at index: Int) -> Any? {
-        return accessibleElements[index]
+    override open func accessibilityElement(at index: Int) -> Any? {
+        accessibleElements[index]
     }
 
-    open override func index(ofAccessibilityElement element: Any) -> Int {
+    override open func index(ofAccessibilityElement element: Any) -> Int {
         guard let element = element as? UIAccessibilityElement else { return 0 }
         return accessibleElements.firstIndex(of: element) ?? 0
     }
-
 
     // MARK: - open methods
 
     /// When subclassing **RangeSeekSlider** and setting each item in **setupStyle()**, the design is reflected in Interface Builder as well.
     open func setupStyle() {}
-
 
     // MARK: - private methods
 
@@ -406,13 +390,13 @@ import UIKit
         rightHandle.borderWidth = handleBorderWidth
         layer.addSublayer(rightHandle)
 
-        let handleFrame: CGRect = CGRect(x: 0.0, y: 0.0, width: handleDiameter, height: handleDiameter)
+        let handleFrame = CGRect(x: 0.0, y: 0.0, width: handleDiameter, height: handleDiameter)
         leftHandle.frame = handleFrame
         rightHandle.frame = handleFrame
 
         // draw the text labels
         let labelFontSize: CGFloat = 12.0
-        let labelFrame: CGRect = CGRect(x: 0.0, y: 50.0, width: 75.0, height: 14.0)
+        let labelFrame = CGRect(x: 0.0, y: 50.0, width: 75.0, height: 14.0)
 
         minLabelFont = UIFont.systemFont(ofSize: labelFontSize)
         minLabel.alignmentMode = CATextLayerAlignmentMode.center
@@ -461,9 +445,9 @@ import UIKit
     private func updateLineHeight() {
         let barSidePadding: CGFloat = 16.0
         let yMiddle: CGFloat = frame.height / 2.0
-        let lineLeftSide: CGPoint = CGPoint(x: barSidePadding, y: yMiddle)
-        let lineRightSide: CGPoint = CGPoint(x: frame.width - barSidePadding,
-                                             y: yMiddle)
+        let lineLeftSide = CGPoint(x: barSidePadding, y: yMiddle)
+        let lineRightSide = CGPoint(x: frame.width - barSidePadding,
+                                    y: yMiddle)
         sliderLine.frame = CGRect(x: lineLeftSide.x,
                                   y: lineLeftSide.y,
                                   width: lineRightSide.x - lineLeftSide.x,
@@ -517,16 +501,15 @@ import UIKit
             sliderLineBetweenHandles.backgroundColor = colorBetweenHandles?.cgColor ?? tintCGColor
             sliderLine.backgroundColor = tintCGColor
 
-            let color: CGColor
-            if let _ = handleImage {
-                color = UIColor.clear.cgColor
+            let color: CGColor = if let _ = handleImage {
+                UIColor.clear.cgColor
             } else {
-                color = handleColor?.cgColor ?? tintCGColor
+                handleColor?.cgColor ?? tintCGColor
             }
             leftHandle.backgroundColor = color
-            leftHandle.borderColor = handleBorderColor.map { $0.cgColor }
+            leftHandle.borderColor = handleBorderColor.map(\.cgColor)
             rightHandle.backgroundColor = color
-            rightHandle.borderColor = handleBorderColor.map { $0.cgColor }
+            rightHandle.borderColor = handleBorderColor.map(\.cgColor)
         }
     }
 
@@ -561,11 +544,11 @@ import UIKit
 
         let minSpacingBetweenLabels: CGFloat = 8.0
 
-        let newMinLabelCenter: CGPoint = CGPoint(x: leftHandle.frame.midX,
-                                                 y: leftHandle.frame.maxY + (minLabelTextSize.height/2) + labelPadding)
+        let newMinLabelCenter = CGPoint(x: leftHandle.frame.midX,
+                                        y: leftHandle.frame.maxY + (minLabelTextSize.height / 2) + labelPadding)
 
-        let newMaxLabelCenter: CGPoint = CGPoint(x: rightHandle.frame.midX,
-                                                 y: rightHandle.frame.maxY + (maxLabelTextSize.height/2) + labelPadding)
+        let newMaxLabelCenter = CGPoint(x: rightHandle.frame.midX,
+                                        y: rightHandle.frame.maxY + (maxLabelTextSize.height / 2) + labelPadding)
 
         let newLeftMostXInMaxLabel: CGFloat = newMaxLabelCenter.x - maxLabelTextSize.width / 2.0
         let newRightMostXInMinLabel: CGFloat = newMinLabelCenter.x + minLabelTextSize.width / 2.0
@@ -620,15 +603,15 @@ import UIKit
     }
 
     fileprivate func refresh() {
-        if enableStep && step > 0.0 {
+        if enableStep, step > 0.0 {
             selectedMinValue = CGFloat(roundf(Float(selectedMinValue / step))) * step
-            if let previousStepMinValue = previousStepMinValue, previousStepMinValue != selectedMinValue {
+            if let previousStepMinValue, previousStepMinValue != selectedMinValue {
                 SliderTapticEngine.selection.feedback()
             }
             previousStepMinValue = selectedMinValue
 
             selectedMaxValue = CGFloat(roundf(Float(selectedMaxValue / step))) * step
-            if let previousStepMaxValue = previousStepMaxValue, previousStepMaxValue != selectedMaxValue {
+            if let previousStepMaxValue, previousStepMaxValue != selectedMaxValue {
                 SliderTapticEngine.selection.feedback()
             }
             previousStepMaxValue = selectedMaxValue
@@ -676,17 +659,16 @@ import UIKit
         updateAccessibilityElements()
 
         // update the delegate
-        if let delegate = delegate, handleTracking != .none {
+        if let delegate, handleTracking != .none {
             delegate.rangeSeekSlider(self, didChange: selectedMinValue, maxValue: selectedMaxValue)
         }
     }
 
     private func animate(handle: CALayer, selected: Bool) {
-        let transform: CATransform3D
-        if selected {
-            transform = CATransform3DMakeScale(selectedHandleDiameterMultiplier, selectedHandleDiameterMultiplier, 1.0)
+        let transform: CATransform3D = if selected {
+            CATransform3DMakeScale(selectedHandleDiameterMultiplier, selectedHandleDiameterMultiplier, 1.0)
         } else {
-            transform = CATransform3DIdentity
+            CATransform3DIdentity
         }
 
         CATransaction.begin()
@@ -701,11 +683,9 @@ import UIKit
     }
 }
 
-
 // MARK: - RangeSeekSliderLeftElement
 
 private final class RangeSeekSliderLeftElement: UIAccessibilityElement {
-
     override func accessibilityIncrement() {
         guard let slider = accessibilityContainer as? RangeSeekSlider else { return }
         slider.selectedMinValue += slider.step
@@ -719,11 +699,9 @@ private final class RangeSeekSliderLeftElement: UIAccessibilityElement {
     }
 }
 
-
 // MARK: - RangeSeekSliderRightElement
 
 private final class RangeSeekSliderRightElement: UIAccessibilityElement {
-
     override func accessibilityIncrement() {
         guard let slider = accessibilityContainer as? RangeSeekSlider else { return }
         slider.selectedMaxValue += slider.step
@@ -739,21 +717,17 @@ private final class RangeSeekSliderRightElement: UIAccessibilityElement {
     }
 }
 
-
 // MARK: - CGRect
 
 private extension CGRect {
-
     var center: CGPoint {
-        return CGPoint(x: midX, y: midY)
+        CGPoint(x: midX, y: midY)
     }
 }
-
 
 // MARK: - CGPoint
 
 private extension CGPoint {
-
     func distance(to: CGPoint) -> CGFloat {
         let distX: CGFloat = to.x - x
         let distY: CGFloat = to.y - y

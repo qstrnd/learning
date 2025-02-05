@@ -1,14 +1,4 @@
-/*:
- [300. Longest Increasing Subsequence](https://leetcode.com/problems/longest-increasing-subsequence/description/)
- 
- #### Solution
- 
- Solve the problem for each element, starting from the last one. Keep track of the
- 
- **Time complexity**: _O(n^2)_, where n is the length of the array
- **Space complexity**: _O(n)_
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -41,10 +31,10 @@ final class Solution {
 func testSolution() {
     let solution = Solution()
 
-    assert(solution.lengthOfLIS([10,9,2,5,3,7,101,18]) == 4, "Test failed: lengthOfLIS([10,9,2,5,3,7,101,18]) == 4")
+    assert(solution.lengthOfLIS([10, 9, 2, 5, 3, 7, 101, 18]) == 4, "Test failed: lengthOfLIS([10,9,2,5,3,7,101,18]) == 4")
     print("Test passed: lengthOfLIS([10,9,2,5,3,7,101,18]) == 4")
-    
-    assert(solution.lengthOfLIS([0,1,0,3,2,3]) == 4, "Test failed: lengthOfLIS([0,1,0,3,2,3]) == 4")
+
+    assert(solution.lengthOfLIS([0, 1, 0, 3, 2, 3]) == 4, "Test failed: lengthOfLIS([0,1,0,3,2,3]) == 4")
     print("Test passed: lengthOfLIS([0,1,0,3,2,3]) == 4")
 }
 

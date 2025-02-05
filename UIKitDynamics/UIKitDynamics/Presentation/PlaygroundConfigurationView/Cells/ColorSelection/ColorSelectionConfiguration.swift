@@ -1,15 +1,9 @@
-//
-//  ColorSelectionConfiguration.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-19.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Combine
 import UIKit
 
 final class ColorSelectionConfiguration: NSObject, UIContentConfiguration {
-
     struct ColorItem: Hashable {
         let color: UIColor
     }
@@ -28,8 +22,8 @@ final class ColorSelectionConfiguration: NSObject, UIContentConfiguration {
         ColorSelectionContentView(configuration: self)
     }
 
-    func updated(for state: UIConfigurationState) -> Self {
-        return self
+    func updated(for _: UIConfigurationState) -> Self {
+        self
     }
 
     func setup(collectionView: UICollectionView) {
@@ -89,10 +83,10 @@ final class ColorSelectionConfiguration: NSObject, UIContentConfiguration {
 
         return diffableDataSource
     }
-
 }
 
 // MARK: - UICollectionViewDelegate
+
 extension ColorSelectionConfiguration: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         updateSelection(for: indexPath, in: collectionView)

@@ -1,9 +1,4 @@
-//
-//  PlaygroundView.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-07-24.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Combine
 import UIKit
@@ -14,7 +9,6 @@ protocol PlaygroundViewDelegate: AnyObject {
 }
 
 final class PlaygroundView: UIView {
-
     weak var delegate: PlaygroundViewDelegate?
     private lazy var feedbackGenerator = HapticFeedbackGenerator(style: .light, view: self)
 
@@ -34,7 +28,8 @@ final class PlaygroundView: UIView {
         setupView()
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -60,7 +55,7 @@ final class PlaygroundView: UIView {
         backgroundColor = .systemBackground
         layer.cornerRadius = .standardCornerRadius
         layer.masksToBounds = false
-        
+
         setupShadow()
         setupExpandButton()
         setupGestures()
@@ -131,7 +126,7 @@ final class PlaygroundView: UIView {
         expandButton.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             expandButton.topAnchor.constraint(equalTo: safeAreaLayoutGuide.topAnchor, constant: .standardPadding),
-            expandButtonTrailingConstraint
+            expandButtonTrailingConstraint,
         ])
     }
 

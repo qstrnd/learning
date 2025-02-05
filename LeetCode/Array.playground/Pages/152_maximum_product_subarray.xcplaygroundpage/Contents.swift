@@ -1,14 +1,4 @@
-/*:
- [152. Maximum Product Subarray](https://leetcode.com/problems/maximum-product-subarray/description/)
- 
- #### Solution
- 
- The key idea is to keep track of both the maximum and minimum product ending at the current index because a negative number can turn a small minimum product into a large maximum product
- 
- **Time complexity**: _O(n)_
- **Space complexity**: _O(1)_
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -33,14 +23,14 @@ final class Solution {
 
 func testSolution() {
     let solution = Solution()
-    
-    assert(solution.maxProduct([2,3,-2,4]) == 6, "Test failed: maxProduct([2,3,-2,4]) == 6")
+
+    assert(solution.maxProduct([2, 3, -2, 4]) == 6, "Test failed: maxProduct([2,3,-2,4]) == 6")
     print("Test passed: maxProduct([2,3,-2,4]) == 6")
-    
-    assert(solution.maxProduct([-2,0,-1]) == 0, "Test failed: maxProduct([-2,0,-1]) == 0")
+
+    assert(solution.maxProduct([-2, 0, -1]) == 0, "Test failed: maxProduct([-2,0,-1]) == 0")
     print("Test passed: maxProduct([-2,0,-1]) == 0")
-    
-    assert(solution.maxProduct([5,4,0,4,2]) == 20, "Test failed: maxProduct([5,4,0,4,2]) == 20")
+
+    assert(solution.maxProduct([5, 4, 0, 4, 2]) == 20, "Test failed: maxProduct([5,4,0,4,2]) == 20")
     print("Test passed: maxProduct([5,4,0,4,2]) == 20")
 }
 

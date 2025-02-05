@@ -1,9 +1,4 @@
-//
-//  ColorItemCell.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-19.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import UIKit
 
@@ -63,7 +58,7 @@ final class ColorItemCell: UICollectionViewCell {
             innerCircle.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             innerCircle.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             innerCircle.widthAnchor.constraint(equalToConstant: Constants.innerCircleSide),
-            innerCircle.heightAnchor.constraint(equalToConstant: Constants.innerCircleSide)
+            innerCircle.heightAnchor.constraint(equalToConstant: Constants.innerCircleSide),
         ])
     }
 }

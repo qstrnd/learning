@@ -1,9 +1,4 @@
-//
-//  RangeSliderCellConfiguration.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-08.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Combine
 import UIKit
@@ -19,8 +14,9 @@ struct RangeSliderCellConfiguration: UIContentConfiguration {
     func makeContentView() -> UIView & UIContentView {
         RangeSliderCellContentView(configuration: self)
     }
-    func updated(for state: UIConfigurationState) -> RangeSliderCellConfiguration {
-        return self
+
+    func updated(for _: UIConfigurationState) -> RangeSliderCellConfiguration {
+        self
     }
 }
 
@@ -43,7 +39,8 @@ final class RangeSliderCellContentView: UIView, UIContentView {
         applyCurrentConfiguration()
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -66,7 +63,7 @@ final class RangeSliderCellContentView: UIView, UIContentView {
             slider.topAnchor.constraint(equalTo: title.bottomAnchor, constant: -.standardPadding),
             slider.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -.standardPadding),
             slider.leadingAnchor.constraint(equalTo: leadingAnchor, constant: .standardPadding),
-            slider.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -.standardPadding)
+            slider.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -.standardPadding),
         ])
     }
 
@@ -83,7 +80,7 @@ final class RangeSliderCellContentView: UIView, UIContentView {
 }
 
 extension RangeSliderCellContentView: RangeSeekSliderDelegate {
-    func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {
+    func rangeSeekSlider(_ slider: RangeSeekSlider, didChange _: CGFloat, maxValue _: CGFloat) {
         guard let configuration = self.configuration as? RangeSliderCellConfiguration else { return }
 
         configuration.onValueChanged.send((slider.selectedMinValue, slider.selectedMaxValue))

@@ -1,9 +1,4 @@
-//
-//  HapticFeedbackGenerator.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-07.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import UIKit
 
@@ -22,7 +17,7 @@ final class HapticFeedbackGenerator: FeedbackGenerator {
     private let feedbackGenerator: UIImpactFeedbackGenerator
 
     init(style: UIImpactFeedbackGenerator.FeedbackStyle, view: UIView? = nil) {
-        if let view = view {
+        if let view {
             self.feedbackGenerator = UIImpactFeedbackGenerator(style: style, view: view)
         } else {
             self.feedbackGenerator = UIImpactFeedbackGenerator(style: style)
@@ -36,7 +31,7 @@ final class HapticFeedbackGenerator: FeedbackGenerator {
     func triggerFeedback(at point: CGPoint?) {
         feedbackGenerator.prepare()
 
-        if let point = point {
+        if let point {
             feedbackGenerator.impactOccurred(at: point)
         } else {
             feedbackGenerator.impactOccurred()

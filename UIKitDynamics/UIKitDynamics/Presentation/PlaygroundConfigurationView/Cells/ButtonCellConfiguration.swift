@@ -1,16 +1,10 @@
-//
-//  CollectionViewCell.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-07.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Combine
 import CombineCocoa
 import UIKit
 
 struct ButtonCellConfiguration: UIContentConfiguration {
-
     let buttonConfiguration: CurrentValueSubject<UIButton.Configuration, Never>
     let didTapButton: PassthroughSubject<Void, Never>
 
@@ -23,8 +17,8 @@ struct ButtonCellConfiguration: UIContentConfiguration {
         ButtonCellContentView(configuration: self)
     }
 
-    func updated(for state: UIConfigurationState) -> Self {
-        return self
+    func updated(for _: UIConfigurationState) -> Self {
+        self
     }
 }
 
@@ -46,7 +40,8 @@ final class ButtonCellContentView: UIView, UIContentView {
         applyCurrentConfiguration()
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -56,7 +51,7 @@ final class ButtonCellContentView: UIView, UIContentView {
         NSLayoutConstraint.activate([
             button.centerXAnchor.constraint(equalTo: centerXAnchor),
             button.topAnchor.constraint(equalTo: topAnchor, constant: .standardPadding),
-            button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -.standardPadding)
+            button.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -.standardPadding),
         ])
     }
 
@@ -81,6 +76,5 @@ final class ButtonCellContentView: UIView, UIContentView {
                 button.configuration = configuration
             }
             .store(in: &cancellables)
-
     }
 }

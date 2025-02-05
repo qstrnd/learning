@@ -1,9 +1,4 @@
-//
-//  PlaygroundConfigurationView.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-06.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import UIKit
 
@@ -25,8 +20,9 @@ final class PlaygroundConfigurationView: UIView {
 
         setupCollectionView()
     }
-    
-    required init?(coder: NSCoder) {
+
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

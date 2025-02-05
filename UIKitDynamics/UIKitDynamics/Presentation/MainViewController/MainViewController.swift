@@ -1,14 +1,8 @@
-//
-//  MainViewController.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-07-23.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import UIKit
 
 final class MainViewController: UIViewController {
-
     private let interactiveObjectsManager = InteractiveObjectsManager()
     private let preferencesManager = InteractiveObjectsPreferencesManager()
 
@@ -78,21 +72,20 @@ final class MainViewController: UIViewController {
             self.playgroundConfigurationView.isHidden = self.isPlaygroundViewExpanded
         }
     }
-
 }
 
 extension MainViewController: PlaygroundViewDelegate {
-    func playgroundViewIsExpanded(_ playgroundView: PlaygroundView) -> Bool {
+    func playgroundViewIsExpanded(_: PlaygroundView) -> Bool {
         isPlaygroundViewExpanded
     }
 
-    func playgroundViewDidRequestExpansion(_ playgroundView: PlaygroundView) {
+    func playgroundViewDidRequestExpansion(_: PlaygroundView) {
         isPlaygroundViewExpanded = !isPlaygroundViewExpanded
     }
 }
 
 extension MainViewController: PlaygroundConfigurationViewDelegate {
-    func playgroundConfigurationViewWillApplyTopInset(_ playgroundConfigurationView: PlaygroundConfigurationView) -> CGFloat {
+    func playgroundConfigurationViewWillApplyTopInset(_: PlaygroundConfigurationView) -> CGFloat {
         layoutManager.calculateTopInsetForPlaygroundConfigurationViewContent()
     }
 }

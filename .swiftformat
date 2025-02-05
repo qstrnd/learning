@@ -1,0 +1,38 @@
+--allman false
+--binarygrouping 4,8
+--commas always
+--decimalgrouping 3,6
+--elseposition same-line
+--voidtype void
+--exponentcase lowercase
+--exponentgrouping disabled
+--fractiongrouping disabled
+--header "Copyright © {created.year} Andrei (Andy) Iakovlev. See LICENSE file for details." 
+--hexgrouping 4,8
+--hexliteralcase uppercase
+--ifdef no-indent
+--indent 4
+--indentcase false
+--importgrouping testable-bottom
+--linebreaks lf
+--maxwidth none
+--octalgrouping 4,8
+--operatorfunc spaced
+--patternlet hoist
+--propertytypes inferred
+--ranges spaced
+--self remove
+--semicolons inline
+--stripunusedargs always
+--swiftversion 6.0
+--trimwhitespace always
+--wraparguments preserve
+--wrapcollections preserve
+--wrapconditions after-first
+
+--enable acronyms
+--enable propertyTypes
+
+--disable redundantSelf
+
+--exclude TCA\ Feature.xctemplate/**

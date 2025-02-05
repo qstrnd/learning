@@ -1,38 +1,28 @@
-/*:
- [2. Add Two Numbers](https://leetcode.com/problems/add-two-numbers/description/)
- 
- #### Solution
- 
- Go through the elements consequently, sum up and don't forget to track the carry
-  
- **Time complexity**: _O(n)_, where n is the count of digits in the longest number
- **Space complexity**: _O(n)_
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
 final class ListNode {
     var val: Int
     var next: ListNode?
-    
+
     init(
         _ val: Int = 0,
         _ next: ListNode? = nil
     ) {
-        self.val = val; self.next = next;
+        self.val = val; self.next = next
     }
-    
+
     func asArray() -> [Int] {
         var result: [Int] = []
-        
+
         var node: ListNode? = self
         while node != nil {
             guard let value = node?.val else { continue }
             result.append(value)
             node = node?.next
         }
-        
+
         return result
     }
 }
@@ -60,7 +50,7 @@ final class Solution {
                 current?.next = next
                 current = next
             }
-            
+
             l1 = l1?.next
             l2 = l2?.next
         }
@@ -73,7 +63,7 @@ final class Solution {
 
 func testSolution() {
     let solution = Solution()
-    
+
     var l1 = ListNode(
         2, ListNode(
             4, ListNode(
@@ -81,7 +71,7 @@ func testSolution() {
             )
         )
     )
-    
+
     var l2 = ListNode(
         5, ListNode(
             6, ListNode(
@@ -89,13 +79,13 @@ func testSolution() {
             )
         )
     )
-    
+
     var testResult = solution.addTwoNumbers(l1, l2)?.asArray() ?? []
     assert(
-        testResult == [7,0,8], "Test failed: addTwoNumbers([2,4,3],[5,6,4]) == [7,0,8]"
+        testResult == [7, 0, 8], "Test failed: addTwoNumbers([2,4,3],[5,6,4]) == [7,0,8]"
     )
     print("Test passed: addTwoNumbers([2,4,3],[5,6,4]) == [7,0,8]")
-    
+
     l1 = ListNode(
         9, ListNode(
             9, ListNode(
@@ -111,7 +101,7 @@ func testSolution() {
             )
         )
     )
-    
+
     l2 = ListNode(
         9, ListNode(
             9, ListNode(
@@ -121,10 +111,10 @@ func testSolution() {
             )
         )
     )
-    
+
     testResult = solution.addTwoNumbers(l1, l2)?.asArray() ?? []
     assert(
-        testResult == [8,9,9,9,0,0,0,1], "Test failed: addTwoNumbers([9,9,9,9,9,9,9],[9,9,9,9]) == [8,9,9,9,0,0,0,1]"
+        testResult == [8, 9, 9, 9, 0, 0, 0, 1], "Test failed: addTwoNumbers([9,9,9,9,9,9,9],[9,9,9,9]) == [8,9,9,9,0,0,0,1]"
     )
     print("Test passed: addTwoNumbers([9,9,9,9,9,9,9],[9,9,9,9]) == [8,9,9,9,0,0,0,1]")
 }

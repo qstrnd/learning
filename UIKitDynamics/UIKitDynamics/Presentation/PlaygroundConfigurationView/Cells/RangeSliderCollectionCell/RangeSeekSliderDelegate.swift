@@ -1,15 +1,8 @@
-//
-//  RangeSeekSliderDelegate.swift
-//  RangeSeekSlider
-//
-//  Created by Keisuke Shoji on 2017/03/09.
-//
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import CoreGraphics
 
-public protocol RangeSeekSliderDelegate: class {
-
+public protocol RangeSeekSliderDelegate: AnyObject {
     /// Called when the RangeSeekSlider values are changed
     ///
     /// - Parameters:
@@ -45,14 +38,12 @@ public protocol RangeSeekSliderDelegate: class {
     func rangeSeekSlider(_ slider: RangeSeekSlider, stringForMaxValue: CGFloat) -> String?
 }
 
-
 // MARK: - Default implementation
 
 public extension RangeSeekSliderDelegate {
-
-    func rangeSeekSlider(_ slider: RangeSeekSlider, didChange minValue: CGFloat, maxValue: CGFloat) {}
-    func didStartTouches(in slider: RangeSeekSlider) {}
-    func didEndTouches(in slider: RangeSeekSlider) {}
-    func rangeSeekSlider(_ slider: RangeSeekSlider, stringForMinValue minValue: CGFloat) -> String? { return nil }
-    func rangeSeekSlider(_ slider: RangeSeekSlider, stringForMaxValue maxValue: CGFloat) -> String? { return nil }
+    func rangeSeekSlider(_: RangeSeekSlider, didChange _: CGFloat, maxValue _: CGFloat) {}
+    func didStartTouches(in _: RangeSeekSlider) {}
+    func didEndTouches(in _: RangeSeekSlider) {}
+    func rangeSeekSlider(_: RangeSeekSlider, stringForMinValue _: CGFloat) -> String? { nil }
+    func rangeSeekSlider(_: RangeSeekSlider, stringForMaxValue _: CGFloat) -> String? { nil }
 }

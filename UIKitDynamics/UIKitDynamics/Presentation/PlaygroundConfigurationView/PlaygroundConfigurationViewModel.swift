@@ -1,9 +1,4 @@
-//
-//  PlaygroundConfigurationViewModel.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-06.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Combine
 import UIKit
@@ -59,7 +54,7 @@ extension PlaygroundConfigurationView {
                 .eraseToAnyPublisher()
 
             Publishers.CombineLatest(isObjectCountEmptyPublisher, interactivePreferencesService.isRandomizationEnabled)
-                .sink { [unowned self] (isObjectCountEmpty, isRandomizedObjectStyleEnabled) in
+                .sink { [unowned self] isObjectCountEmpty, isRandomizedObjectStyleEnabled in
                     self._content.value = self.buildContentItems(
                         isObjectCountEmpty: isObjectCountEmpty,
                         isRandomizedObjectStyleEnabled: isRandomizedObjectStyleEnabled
@@ -75,7 +70,7 @@ extension PlaygroundConfigurationView {
 
             didUpdateMinMaxObjectDimensions
                 .throttle(for: .seconds(0.5), scheduler: DispatchQueue.main, latest: true)
-                .sink { [unowned self] (min, max) in
+                .sink { [unowned self] min, max in
                     self.updateMinMaxDimensions(min: min, max: max)
                 }
                 .store(in: &cancellables)
@@ -83,7 +78,7 @@ extension PlaygroundConfigurationView {
             selectedRandomColors
                 .removeDuplicates()
                 .sink { [unowned self] updatedColors in
-                    self.interactivePreferencesService.colors = Array(updatedColors.map { $0.color })
+                    self.interactivePreferencesService.colors = Array(updatedColors.map(\.color))
                 }
                 .store(in: &cancellables)
         }
@@ -110,13 +105,13 @@ extension PlaygroundConfigurationView {
         func getContentConfiguration(for item: ContentItem, in cell: UICollectionViewListCell) -> UIContentConfiguration {
             switch item {
             case .clearInteractiveObjectsButton:
-                return configurationForClearInteractiveObjectsButton()
+                configurationForClearInteractiveObjectsButton()
             case .randomizeObjectsStyleSwitch:
-                return configurationForRandomizedObjectsStyleSwitch(for: cell)
+                configurationForRandomizedObjectsStyleSwitch(for: cell)
             case .randomizedColorCollection:
-                return configurationForRandomizedColorSelector(for: cell)
+                configurationForRandomizedColorSelector(for: cell)
             case .minMaxInteractiveObjectDimensionSlider:
-                return configurationForMinMaxInteractiveObjectDimensionSlider(for: cell)
+                configurationForMinMaxInteractiveObjectDimensionSlider(for: cell)
             }
         }
 
@@ -158,13 +153,13 @@ extension PlaygroundConfigurationView {
                         customView: switchView,
                         placement: .trailing(displayed: .always)
                     )
-                )
+                ),
             ]
 
             return cellConfiguration
         }
 
-        private func configurationForRandomizedColorSelector(for cell: UICollectionViewListCell) -> UIContentConfiguration {
+        private func configurationForRandomizedColorSelector(for _: UICollectionViewListCell) -> UIContentConfiguration {
             let content = ColorSelectionConfiguration(
                 items: interactivePreferencesService.possibleColors.map { .init(color: $0) },
                 selectedItems: selectedRandomColors
@@ -173,7 +168,7 @@ extension PlaygroundConfigurationView {
             return content
         }
 
-        private func configurationForMinMaxInteractiveObjectDimensionSlider(for cell: UICollectionViewListCell) -> UIContentConfiguration {
+        private func configurationForMinMaxInteractiveObjectDimensionSlider(for _: UICollectionViewListCell) -> UIContentConfiguration {
             let content = RangeSliderCellConfiguration(
                 title: "Dimensions",
                 minValue: interactivePreferencesService.minPossibleDimension,
@@ -203,7 +198,7 @@ extension PlaygroundConfigurationView {
                         customView: switchView,
                         placement: .trailing(displayed: .always)
                     )
-                )
+                ),
             ]
 
             return cellConfiguration

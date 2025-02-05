@@ -1,9 +1,4 @@
-//
-//  Constants.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-07-24.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 

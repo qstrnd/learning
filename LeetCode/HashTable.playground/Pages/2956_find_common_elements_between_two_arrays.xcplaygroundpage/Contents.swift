@@ -1,14 +1,4 @@
-/*:
- [2956. Find Common Elements Between Two Arrays](https://leetcode.com/problems/find-common-elements-between-two-arrays/description/)
- 
- #### Solution
- 
- Make a set for each array's elements and check each element
- 
- - **Time Complexity**: _O(n + m)_, where n is the length of nums1 and m is the length of nums2
- - **Space Complexity**: _O(n + m)_, where n is the length of nums1 and m is the length of nums2
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -35,11 +25,11 @@ final class Solution {
 
 func testSolution() {
     let solution = Solution()
-    
-    assert(solution.findIntersectionValues([2,3,2], [1,2]) == [2, 1], "Test failed: findIntersectionValues([2,3,2], [1,2]) == [2, 1]")
+
+    assert(solution.findIntersectionValues([2, 3, 2], [1, 2]) == [2, 1], "Test failed: findIntersectionValues([2,3,2], [1,2]) == [2, 1]")
     print("Test passed: findIntersectionValues([2,3,2], [1,2]) == [2, 1]")
-    
-    assert(solution.findIntersectionValues([4,3,2,3,1], [2,2,5,2,3,6]) == [3,4], "Test failed: findIntersectionValues([4,3,2,3,1], [2,2,5,2,3,6]) == [3,4]")
+
+    assert(solution.findIntersectionValues([4, 3, 2, 3, 1], [2, 2, 5, 2, 3, 6]) == [3, 4], "Test failed: findIntersectionValues([4,3,2,3,1], [2,2,5,2,3,6]) == [3,4]")
     print("Test passed: findIntersectionValues([4,3,2,3,1], [2,2,5,2,3,6]) == [3,4]")
 }
 

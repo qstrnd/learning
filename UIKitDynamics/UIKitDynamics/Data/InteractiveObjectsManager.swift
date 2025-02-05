@@ -1,9 +1,4 @@
-//
-//  InteractiveObjectsService.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-08.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Combine
 import UIKit
@@ -22,12 +17,11 @@ protocol InteractiveObjectsObserving: AnyObject {
     func requestAllItemsRemoval()
 }
 
-
 final class InteractiveObjectsManager: InteractiveObjectsManaging, InteractiveObjectsObserving {
     var count: AnyPublisher<Int, Never>
     private var _count: CurrentValueSubject<Int, Never>
 
-    var removeAllItemsPublisher: PassthroughSubject<Void, Never> = .init()
+    var removeAllItemsPublisher = PassthroughSubject<Void, Never>()
 
     init() {
         self._count = .init(0)

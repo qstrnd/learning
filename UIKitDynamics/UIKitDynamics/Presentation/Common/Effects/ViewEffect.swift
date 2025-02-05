@@ -1,9 +1,4 @@
-//
-//  ViewEffect.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-07.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import UIKit
 

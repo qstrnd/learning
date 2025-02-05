@@ -1,14 +1,8 @@
-//
-//  SyncUpsUITests.swift
-//  SyncUpsUITests
-//
-//  Created by Andy on 2/5/25.
-//
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import XCTest
 
 final class SyncUpsUITests: XCTestCase {
-
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
 

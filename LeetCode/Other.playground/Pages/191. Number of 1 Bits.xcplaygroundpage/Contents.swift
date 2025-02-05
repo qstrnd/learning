@@ -1,7 +1,4 @@
-/*:
- [191. Number of 1 Bits](https://leetcode.com/problems/number-of-1-bits/description/)
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -10,14 +7,14 @@ protocol Solution {
 }
 
 /*:
- 
+
  #### Solution 1
- 
+
  Calculate the Hamming weight using modulo and division
- 
+
  - **Time Complexity**: _O(log n)_, where n is the number of digits in the base-10 representation of the number.
  - **Space Complexity**: _O(1)_
- 
+
  */
 
 final class Solution1: Solution {
@@ -33,14 +30,14 @@ final class Solution1: Solution {
 }
 
 /*:
- 
+
  #### Solution 2
- 
+
  Calculate the Hamming by clearing the least significant set bit in a loop
- 
+
  - **Time Complexity**: _O(log n)_, where n is the number of digits in the base-10 representation of the number.
  - **Space Complexity**: _O(1)_
- 
+
  */
 
 final class Solution2: Solution {
@@ -48,7 +45,7 @@ final class Solution2: Solution {
         var n = n
         var c = 0
         while n > 0 {
-            n = n & (n - 1); // Clear the least significant set bit in n
+            n = n & (n - 1) // Clear the least significant set bit in n
             c += 1
         }
         return c
@@ -56,14 +53,14 @@ final class Solution2: Solution {
 }
 
 /*:
- 
+
  #### Solution 3
- 
+
  Precompute results for reusable subranges
- 
+
  - **Time Complexity**: _O(log n)_, where n is the number of digits in the base-10 representation of the number.
  - **Space Complexity**: _O(1)_
- 
+
  */
 
 final class Solution3: Solution {
@@ -74,7 +71,7 @@ final class Solution3: Solution {
         }
         return table
     }()
-    
+
     func hammingWeight(_ n: Int) -> Int {
         var n = n
         var c = 0
@@ -88,13 +85,13 @@ final class Solution3: Solution {
 
 // MARK: - Tests
 
-func testSolution(_ solution: Solution) {
+func testSolution(_: Solution) {
     let solution = Solution1()
-    
+
     assert(solution.hammingWeight(11) == 3, "Test failed: hammingWeight(11) == 3")
     print("Test passed: hammingWeight(11) == 3")
-    
-    assert(solution.hammingWeight(2147483645) == 30, "Test failed: hammingWeight(2147483645) == 30")
+
+    assert(solution.hammingWeight(2_147_483_645) == 30, "Test failed: hammingWeight(2147483645) == 30")
     print("Test passed: hammingWeight(2147483645) == 30")
 }
 

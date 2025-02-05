@@ -1,19 +1,4 @@
-/*:
- [46. Permutations](https://leetcode.com/problems/permutations/description/)
- 
- #### Solution
- 
- It's a backtracking type of problem. The solutions may be visially represented as a tree.
- 
- ![A tree representing the solution](46_solution_tree.png)
- [Image Source](https://leetcode.com/problems/permutations/solutions/5976304/complex-backtracking-interview-prepare-list-of-common-backtracking-problems-beats-100/)
- 
- To implement the solution, one can take the first element and find the permutations for the rest of the elements using a recursion, then move the element to the last position and repeat it for every element.
- 
- **Time complexity**: _O(n!)_
- **Space complexity**: _O(n!)_
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -47,14 +32,14 @@ final class Solution {
 
 func testSolution() {
     let solution = Solution()
-    
-    assert(solution.permute([1, 2, 3]) == [[3,2,1],[2,3,1],[1,3,2],[3,1,2],[2,1,3],[1,2,3]]
-, "Test failed: permute([1, 2, 3]) == [[3,2,1],[2,3,1],[1,3,2],[3,1,2],[2,1,3],[1,2,3]]")
+
+    assert(solution.permute([1, 2, 3]) == [[3, 2, 1], [2, 3, 1], [1, 3, 2], [3, 1, 2], [2, 1, 3], [1, 2, 3]],
+           "Test failed: permute([1, 2, 3]) == [[3,2,1],[2,3,1],[1,3,2],[3,1,2],[2,1,3],[1,2,3]]")
     print("Test passed: permute([1, 2, 3]) == [[3,2,1],[2,3,1],[1,3,2],[3,1,2],[2,1,3],[1,2,3]]")
-    
-    assert(solution.permute([0,1]) == [[1,0],[0,1]], "Test failed: permute([0,1]) == [[1,0],[0,1]]")
+
+    assert(solution.permute([0, 1]) == [[1, 0], [0, 1]], "Test failed: permute([0,1]) == [[1,0],[0,1]]")
     print("Test passed: permute([0,1]) == [[1,0],[0,1]]")
-    
+
     assert(solution.permute([1]) == [[1]], "Test failed: permute([1]) == [[1]]")
     print("Test passed: permute([1]) == [[1]]")
 }

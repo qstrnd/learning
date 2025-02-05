@@ -1,14 +1,4 @@
-/*:
- [344. Reverse String](https://leetcode.com/problems/reverse-string/)
- 
- #### Solution
- 
- Use two pointers (indices) and iterate, moving the indices towards the center and swapping the value at each iteration
- 
- - **Time Complexity**: _O(n)_, where n is the length of the string
- - **Space Complexity**: _O(1)_
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -29,15 +19,15 @@ final class Solution {
 
 func testSolution() {
     let solution = Solution()
-    
-    var str: [Character] = ["h","e","l","l","o"]
+
+    var str: [Character] = ["h", "e", "l", "l", "o"]
     solution.reverseString(&str)
-    assert(str == ["o","l","l","e","h"], "Test failed: reverseString([\"h\",\"e\",\"l\",\"l\",\"o\"]) == [\"o\",\"l\",\"l\",\"e\",\"h\"]")
+    assert(str == ["o", "l", "l", "e", "h"], "Test failed: reverseString([\"h\",\"e\",\"l\",\"l\",\"o\"]) == [\"o\",\"l\",\"l\",\"e\",\"h\"]")
     print("Test passed: reverseString([\"h\",\"e\",\"l\",\"l\",\"o\"]) == [\"o\",\"l\",\"l\",\"e\",\"h\"]")
-    
-    str = ["H","a","n","n","a","h"]
+
+    str = ["H", "a", "n", "n", "a", "h"]
     solution.reverseString(&str)
-    assert(str == ["h","a","n","n","a","H"], "Test  failed: reverseString([\"H\",\"a\",\"n\",\"n\",\"a\",\"H\"]) == [\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]")
+    assert(str == ["h", "a", "n", "n", "a", "H"], "Test  failed: reverseString([\"H\",\"a\",\"n\",\"n\",\"a\",\"H\"]) == [\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]")
     print("Test passed: reverseString([\"H\",\"a\",\"n\",\"n\",\"a\",\"H\"]) == [\"h\",\"a\",\"n\",\"n\",\"a\",\"H\"]")
 }
 

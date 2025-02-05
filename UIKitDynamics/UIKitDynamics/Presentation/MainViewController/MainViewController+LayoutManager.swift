@@ -1,9 +1,4 @@
-//
-//  MainViewController+LayoutManager.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-06.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import UIKit
 
@@ -147,7 +142,7 @@ extension MainViewController {
             playgroundView.translatesAutoresizingMaskIntoConstraints = false
             NSLayoutConstraint.activate([
                 playgroundViewLeadingConstraint,
-                playgroundViewTrailingConstraint
+                playgroundViewTrailingConstraint,
             ])
         }
 
@@ -203,14 +198,14 @@ extension MainViewController {
                 playgroundViewTopToSafeAreaAnchor,
                 playgroundViewBottomToSafeAreaAnchor,
                 playgroundViewLeadingToSafeAreaAnchor,
-                playgroundViewTrailingToCenterXAnchor
+                playgroundViewTrailingToCenterXAnchor,
             ]
 
             let expandedConstraints = [
                 playgroundViewExpandedTopAnchor,
                 playgroundViewExpandedBottomAnchor,
                 playgroundViewExpandedLeadingAnchor,
-                playgroundViewExpandedTrailingAnchor
+                playgroundViewExpandedTrailingAnchor,
             ]
 
             NSLayoutConstraint.activate(isExpanded ? expandedConstraints : nonExpandedConstraints)

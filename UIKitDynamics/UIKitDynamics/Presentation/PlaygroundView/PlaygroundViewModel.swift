@@ -1,9 +1,4 @@
-//
-//  PlaygroundViewModel.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-08.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import UIKit
 
@@ -44,8 +39,8 @@ extension PlaygroundView {
         }
 
         func removeAllInteractiveSubviews() -> [UIView] {
-            self.interactiveSubviews.forEach {
-                self.removeDynamics(from: $0)
+            for interactiveSubview in self.interactiveSubviews {
+                self.removeDynamics(from: interactiveSubview)
             }
 
             let removedSubviews = interactiveSubviews

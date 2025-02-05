@@ -1,14 +1,8 @@
-//
-//  ParticleEmitterUITestsLaunchTests.swift
-//  ParticleEmitterUITests
-//
-//  Created by Andy on 1/4/25.
-//
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import XCTest
 
 final class ParticleEmitterUITestsLaunchTests: XCTestCase {
-
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true
     }

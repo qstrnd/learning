@@ -1,9 +1,4 @@
-//
-//  RippleEffect.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-07.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import UIKit
 
@@ -100,7 +95,7 @@ private extension UIView {
 
     var existingContentLayer: CALayer? {
         get {
-            return objc_getAssociatedObject(self, &Self.existingContentLayerKey) as? CALayer
+            objc_getAssociatedObject(self, &Self.existingContentLayerKey) as? CALayer
         }
         set {
             objc_setAssociatedObject(self, &Self.existingContentLayerKey, newValue, .OBJC_ASSOCIATION_RETAIN_NONATOMIC)

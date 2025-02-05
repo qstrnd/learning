@@ -1,22 +1,17 @@
-//
-//  ContentView.swift
-//  ParticleEmitter
-//
-//  Created by Andy on 1/4/25.
-//
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
-import SwiftUI
 import SpriteKit
+import SwiftUI
 
 struct ContentView: View {
     var scene: SKScene {
         let scene = SnowScene()
         scene.scaleMode = .resizeFill
         scene.backgroundColor = .clear
-        
+
         return scene
     }
-    
+
     var body: some View {
         ZStack {
             Color(red: 0.0, green: 0.12, blue: 0.32)

@@ -1,14 +1,4 @@
-/*:
- [3. Longest Substring Without Repeating Characters](https://leetcode.com/problems/longest-substring-without-repeating-characters/description/)
- 
- #### Solution
- 
- Use the sliding window technique to go through the array and keep track of the longest unique sequence
- 
- - **Time Complexity**: _O(n)_, where n is the length of the array
- - **Space Complexity**: _O(1)_, because the number of unique characters is limited
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -36,13 +26,13 @@ final class Solution {
 
 func testSolution() {
     let solution = Solution()
-    
+
     assert(solution.lengthOfLongestSubstring("abcabcbb") == 3, "Test failed: lengthOfLongestSubstring(\"abcabcbb\") == 3")
     print("Test passed: lengthOfLongestSubstring(\"abcabcbb\") == 3")
-    
+
     assert(solution.lengthOfLongestSubstring("bbbbb") == 1, "Test failed: lengthOfLongestSubstring(\"bbbbb\") == 1")
     print("Test passed: lengthOfLongestSubstring(\"bbbbb\") == 1")
-    
+
     assert(solution.lengthOfLongestSubstring("pwwkew") == 3, "Test failed: lengthOfLongestSubstring(\"pwwkew\") == 3")
     print("Test passed: lengthOfLongestSubstring(\"pwwkew\") == 3")
 }

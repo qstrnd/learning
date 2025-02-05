@@ -1,14 +1,4 @@
-/*:
- [228. Summary Ranges](https://leetcode.com/problems/summary-ranges/description)
- 
- #### Solution
- 
- Iterate through elements, keeping track when the new range begins
-  
- **Time complexity**: _O(n)_, where n is the length of the array
- **Space complexity**: _O(n)_, where n is the length of the array
- 
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -45,15 +35,14 @@ final class Solution {
 
 func testSolution() {
     let solution = Solution()
-    
-    assert(solution.summaryRanges([0,1,2,4,5,7]) == ["0->2","4->5","7"], "Test failed: summaryRanges([0,1,2,4,5,7]) == ['0->2','4->5','7']")
+
+    assert(solution.summaryRanges([0, 1, 2, 4, 5, 7]) == ["0->2", "4->5", "7"], "Test failed: summaryRanges([0,1,2,4,5,7]) == ['0->2','4->5','7']")
     print("Test passed: summaryRanges([0,1,2,4,5,7]) == ['0->2','4->5','7']")
-    
-    assert(solution.summaryRanges([0,2,3,4,6,8,9]) == ["0","2->4","6","8->9"], "Test failed: summaryRanges([0,2,3,4,6,8,9]) == ['0','2->4','6','8->9']")
+
+    assert(solution.summaryRanges([0, 2, 3, 4, 6, 8, 9]) == ["0", "2->4", "6", "8->9"], "Test failed: summaryRanges([0,2,3,4,6,8,9]) == ['0','2->4','6','8->9']")
     print("Test passed: summaryRanges([0,2,3,4,6,8,9]) == ['0','2->4','6','8->9']")
 }
 
 testSolution()
-
 
 //: [Previous](@previous) || [Next](@next)

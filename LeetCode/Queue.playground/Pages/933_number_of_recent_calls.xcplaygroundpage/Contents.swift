@@ -1,34 +1,24 @@
-/*:
- [933. Number of recent calls](https://leetcode.com/problems/number-of-recent-calls/description/)
- 
- #### Solution
- 
- Use a queue to track ping time in sequential order and store the count of queued elements. When ping happens, go through the queue, dequeueing the elements until the first encounter of the element that meets the condition _[t - 3000, t]_.
- 
- **Time Complexity**: _O(1)_ amortized per ping call.
- **Space Complexity**: _O(1)_ (bounded by 3000 elements) in a queue.
- 
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
 class Queue<T> {
     private var elements: [T] = []
-    
+
     func enqueue(_ element: T) {
         elements.append(element)
     }
-    
+
     func dequeue() -> T? {
         if elements.isEmpty { return nil }
-        
+
         return elements.removeFirst()
     }
-    
+
     func peek() -> T? {
         elements.first
     }
-    
+
     func isEmpty() -> Bool {
         elements.isEmpty
     }
@@ -36,21 +26,20 @@ class Queue<T> {
 
 /*:
  My initial version that is too slow because of being to much straightforward. I reiterated over this version to come up with the final solution (see below)
-*/
+ */
 
 final class RecentCounter_SlowVersion {
-    
-    private static let msPeriod: Int = 3000
-    
+    private static let msPeriod = 3000
+
     private var recentTime = 0
     private var queue = Queue<Int>()
 
     init() {}
-    
+
     func ping(_ time: Int) -> Int {
         precondition(time > recentTime, "Contract is violated: time must be greater than recentTime")
         recentTime = time
-        
+
         var updatedQueue = Queue<Int>()
         let minimalTimeInPeriod = time - Self.msPeriod
         var pingsInPeriod = 1
@@ -60,57 +49,56 @@ final class RecentCounter_SlowVersion {
                 updatedQueue.enqueue(pingTime)
             }
         }
-        
+
         updatedQueue.enqueue(time)
         queue = updatedQueue
-        
+
         return pingsInPeriod
     }
 }
 
 final class RecentCounter {
-    
-    private static let msPeriod: Int = 3000
-    
+    private static let msPeriod = 3000
+
     private var recentTime = 0
     private var queuedPingsCount = 0
     private var queue = Queue<Int>()
 
     init() {}
-    
+
     func ping(_ time: Int) -> Int {
         precondition(time > recentTime, "Contract is violated: time must be greater than recentTime")
         recentTime = time
-        
+
         queue.enqueue(time)
         queuedPingsCount += 1
-        
+
         let minimalTimeInPeriod = time - Self.msPeriod
         while let pingTime = queue.peek() {
             if pingTime >= minimalTimeInPeriod {
                 break
             }
-            
+
             _ = queue.dequeue()
             queuedPingsCount -= 1
         }
-        
+
         return queuedPingsCount
     }
 }
 
 func testSolution() {
     let sut = RecentCounter()
-    
+
     assert(sut.ping(1) == 1, "Didn't pass for '1' value")
     print("Passed for '1' value")
-    
+
     assert(sut.ping(100) == 2, "Didn't pass for '100' value")
     print("Passed for '100' value")
-    
+
     assert(sut.ping(3001) == 3, "Didn't pass for '3001' value")
     print("Passed for '3001' value")
-    
+
     assert(sut.ping(3002) == 3, "Didn't pass for '3002' value")
     print("Passed for '3002' value")
 }

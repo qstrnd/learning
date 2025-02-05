@@ -1,15 +1,4 @@
-/*:
- [118. Pascal's Triangle](https://leetcode.com/problems/pascals-triangle/description/)
- 
- #### Solution
- 
- Solve a partial problem that given a previous line, a new line can be build.
- Use this to solve the problem as a whole.
- 
- **Time complexity**: _O(n^2)_
- **Space complexity**: _O(n^2)_
-
- */
+// Copyright © 2025 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Foundation
 
@@ -50,10 +39,10 @@ final class Solution {
 
 func testSolution() {
     let solution = Solution()
-    
-    assert(solution.generate(5) == [[1],[1,1],[1,2,1],[1,3,3,1],[1,4,6,4,1]], "Test failed: generate(5)")
+
+    assert(solution.generate(5) == [[1], [1, 1], [1, 2, 1], [1, 3, 3, 1], [1, 4, 6, 4, 1]], "Test failed: generate(5)")
     print("Test passed: generate(5)")
-    
+
     assert(solution.generate(1) == [[1]], "Test failed: generate(1)")
     print("Test passed: generate(1)")
 }

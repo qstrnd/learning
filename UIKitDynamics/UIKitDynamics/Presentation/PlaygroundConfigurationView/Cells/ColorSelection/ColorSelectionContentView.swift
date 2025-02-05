@@ -1,9 +1,4 @@
-//
-//  ColorSelectionConfiguration.swift
-//  UIKitDynamics
-//
-//  Created by Andy on 2024-08-19.
-//
+// Copyright © 2024 Andrei (Andy) Iakovlev. See LICENSE file for details.
 
 import Combine
 import CombineCocoa
@@ -29,13 +24,14 @@ final class ColorSelectionContentView: UIView, UIContentView {
         applyCurrentConfiguration()
     }
 
-    required init?(coder: NSCoder) {
+    @available(*, unavailable)
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     private func setupView() {
         nestedCollectionView.backgroundColor = nil
-        nestedCollectionView.showsHorizontalScrollIndicator = false 
+        nestedCollectionView.showsHorizontalScrollIndicator = false
     }
 
     private func setupLayout() {
@@ -47,7 +43,7 @@ final class ColorSelectionContentView: UIView, UIContentView {
             nestedCollectionView.bottomAnchor.constraint(equalTo: bottomAnchor),
             nestedCollectionView.leadingAnchor.constraint(equalTo: leadingAnchor),
             nestedCollectionView.trailingAnchor.constraint(equalTo: trailingAnchor),
-            nestedCollectionView.heightAnchor.constraint(equalToConstant: 48)
+            nestedCollectionView.heightAnchor.constraint(equalToConstant: 48),
         ])
     }
 
