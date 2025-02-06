@@ -1,10 +1,10 @@
 /*:
  [222. Count Complete Tree Nodes](https://leetcode.com/problems/count-complete-tree-nodes/description/)
- 
+
  #### Solution
- 
+
  https://leetcode.com/problems/count-complete-tree-nodes/solutions/61958/concise-java-solutions-o-log-n-2
-  
+
  **Time complexity**: _O(log(n)^2)_, where n is the number of elements in the tree
  **Space complexity**: _O(1)_
 
@@ -16,7 +16,7 @@ final class TreeNode {
     var val: Int
     var left: TreeNode?
     var right: TreeNode?
-    
+
     init(
         _ val: Int = 0,
         _ left: TreeNode? = nil,
@@ -26,11 +26,11 @@ final class TreeNode {
         self.left = left
         self.right = right
     }
-    
+
     func asArray() -> [Int?] {
         var result: [Int?] = []
         var queue: [TreeNode?] = [self]
-        
+
         while !queue.isEmpty {
             let node = queue.removeFirst()
             if let node = node {
@@ -41,12 +41,12 @@ final class TreeNode {
                 result.append(nil)
             }
         }
-        
+
         // Remove trailing `nil` values to represent the array properly
         while let optionalElement = result.last, optionalElement == nil {
             result.removeLast()
         }
-        
+
         return result
     }
 }
@@ -61,10 +61,10 @@ final class Solution {
         if h < 0 {
             return 0
         } else {
-            if height(root?.right) == h - 1  {
+            if height(root?.right) == h - 1 {
                 return (1 << h) + countNodes(root?.right)
             } else {
-                return (1 << h - 1) + countNodes(root?.left)
+                return (1 << (h - 1)) + countNodes(root?.left)
             }
         }
     }
@@ -74,20 +74,27 @@ final class Solution {
 
 func testSolution() {
     let solution = Solution()
-    
+
     var root = TreeNode(1)
     root.left = TreeNode(2)
     root.left?.left = TreeNode(4)
     root.left?.right = TreeNode(5)
     root.right = TreeNode(3)
     root.right?.left = TreeNode(4)
-    
+
     assert(solution.countNodes(root) == 6, "Test failed: countNodes([1,2,3,4,5,6])) == 6")
-    print("Test passed: countNodes(\(root)) == 6")
-    
+    print("Test passed: countNodes([1,2,3,4,5,6]) == 6")
+
     root = TreeNode(1)
     assert(solution.countNodes(root) == 1, "Test failed: countNodes([1]) == 1")
-    print("Test passed: countNodes(\(root)) == 1")
+    print("Test passed: countNodes([1]) == 1")
+
+    root = TreeNode(1)
+    root.left = TreeNode(2)
+    root.left?.left = TreeNode(4)
+    root.right = TreeNode(3)
+    assert(solution.countNodes(root) == 4, "Test failed: countNodes([1,2,3,4])) == 4")
+    print("Test passed: countNodes([1,2,3,4])) == 4")
 }
 
 testSolution()
