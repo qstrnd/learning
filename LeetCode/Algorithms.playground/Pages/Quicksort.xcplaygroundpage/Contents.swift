@@ -17,23 +17,23 @@ extension Array where Element: Comparable {
     }
     
     private mutating func _partition(from low: Index, to high: Index) -> Int {
-        var i = low - 1
+        var i = low
         let p = high - 1
         
         for j in low ..< high {
             if self[j] < self[p] {
-                i += 1
                 swapAt(i, j)
+                i += 1
             }
         }
         
-        swapAt(i + 1, p)
+        swapAt(i, p)
         
-        return i + 1
+        return i
     }
 }
 
-var a = [1, 3, 4, 5, 2, 5, 6, 7, 2, 3, 4, 5, 6]
+var a = [1, 3, 4, 5, 2, 5, 6, 7, 2, 3, 4, 5, 6, 5]
 a.quickSort()
 
 //: [Next](@next)
