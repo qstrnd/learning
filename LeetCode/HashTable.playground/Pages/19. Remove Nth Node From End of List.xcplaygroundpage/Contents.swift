@@ -1,7 +1,7 @@
 /*:
  [19. Remove Nth Node From End of List](https://leetcode.com/problems/remove-nth-node-from-end-of-list/description/)
  
- #### Solution
+ #### Solution 1 with hash map
  
  Map index of element to the element itself. Then handle the following situations (R is the position of the element to be removed):
     [R, n, n]
@@ -11,6 +11,14 @@
  
  **Time complexity**: _O(n)_, where n is the number of elements in the linked list
  **Space complexity**: _O(n)_
+ 
+ #### Solution 2 with two pointers
+ 
+ Use two pointers with the distance of n elements in between.
+ To be able to remove the nth element and avoid a special case for head, use a dummy node at the beginning
+ 
+ **Time complexity**: _O(n)_, where n is the number of elements in the linked list
+ **Space complexity**: _O(1)_
 
  */
 
@@ -41,7 +49,11 @@ final class ListNode {
     }
 }
 
-final class Solution {
+protocol Solution {
+    func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode?
+}
+
+final class Solution1_HashMap: Solution {
     func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
         var indexedNodes: [Int: ListNode] = [:]
         var curr = 0
@@ -65,11 +77,30 @@ final class Solution {
     }
 }
 
+final class Solution2_TwoPointers: Solution {
+    func removeNthFromEnd(_ head: ListNode?, _ n: Int) -> ListNode? {
+        var dummyNode = ListNode(0, head)
+        
+        var l: ListNode? = dummyNode
+        var r: ListNode? = head
+        for _ in 0 ..< n {
+            r = r?.next
+        }
+        
+        while r != nil {
+            l = l?.next
+            r = r?.next
+        }
+        
+        l?.next = l?.next?.next
+        
+        return dummyNode.next
+    }
+}
+
 // MARK: - Tests
 
-func testSolution() {
-    let solution = Solution()
-    
+func testSolution(_ solution: Solution) {
     var list = ListNode(
         1, ListNode(
             2, ListNode(
@@ -108,6 +139,7 @@ func testSolution() {
     print("Test passed: removeNthFromEnd([1,2], 1) == [1]")
 }
 
-testSolution()
+testSolution(Solution1_HashMap())
+testSolution(Solution2_TwoPointers())
 
 //: [Previous](@previous) || [Next](@next)
