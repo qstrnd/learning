@@ -5,12 +5,6 @@
       location = "group:LeetCode"
       name = "LeetCode">
       <FileRef
-         location = "group:Algorithms.playground">
-      </FileRef>
-      <FileRef
-         location = "group:DynamicProgramming.playground">
-      </FileRef>
-      <FileRef
          location = "group:LinkedList.playground">
       </FileRef>
       <FileRef
@@ -32,6 +26,9 @@
          location = "group:Queue.playground">
       </FileRef>
    </Group>
+   <FileRef
+      location = "group:SyncUps/SyncUps.xcodeproj">
+   </FileRef>
    <FileRef
       location = "group:ParticleEmitter/ParticleEmitter.xcodeproj">
    </FileRef>
