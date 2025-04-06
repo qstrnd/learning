@@ -25,6 +25,9 @@
       <FileRef
          location = "group:Queue.playground">
       </FileRef>
+      <FileRef
+         location = "group:DynamicProgramming.playground">
+      </FileRef>
    </Group>
    <FileRef
       location = "group:SyncUps/SyncUps.xcodeproj">
